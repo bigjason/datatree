@@ -3,4 +3,5 @@
 .pydevproject
 datatree.egg-info/
 build/
+dist/
 
