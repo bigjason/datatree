@@ -10,6 +10,11 @@ class NodeBase(object):
         return set(["render", "register_renderer"])
 
     def render(self, renderer="xml"):
+        """Render the datatree from this node down using the provided renderer.
+        
+        :keyword renderer: The name of the renderer to use.  You may add more
+            renderers by using the register_renderer method.        
+        """
         global _plugins
         render_kls = None
         for plugin in _plugins:
