@@ -1,11 +1,11 @@
-datatree
+DataTree
 ========
 
 _This project is a work in progress and not ready for use yet._
 
 Summary
 -------
-datatree is a DSL for creating structured documents in python inspired by Rubys 
+DataTree is a DSL for creating structured documents in python inspired by Rubys 
 Builder, but supporting many structured output formats (planned).
 
 Example

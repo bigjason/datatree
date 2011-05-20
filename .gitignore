@@ -1,3 +1,6 @@
 *.pyc
 .project
 .pydevproject
+datatree.egg-info/
+build/
+
