@@ -1,0 +1,92 @@
+from StringIO import StringIO
+
+from datatree.xmlnode import NodeXml
+
+__all__ = ["Node", "SubNode", "S"]
+
+class Node(NodeXml):
+    def __init__(self, node_name=None, node_value=None, **attrs):
+        self.__children__ = []
+        self.__node_name__ = node_name
+        self.__value__ = node_value
+        self.__attrs__ = attrs
+            
+    def __getattribute__(self, name):
+        try:
+            if (name.startswith("__") and name.endswith("__")) or \
+                name in ["to_string", "add_child", "to_xml", "to_xml_str", "to_etree"]:
+                val = object.__getattribute__(self, name)
+                return val
+            else:
+                raise ValueError()
+        except:
+            def add_child(self, node_value=None, node_name=None, **attrs):
+                child_node = Node(node_name=node_name or name, 
+                                  node_value=node_value, **attrs) 
+                self.__children__.append(child_node)
+                return child_node
+                
+            return add_child.__get__(self)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        return False
+    
+    def __str__(self):
+        return "{}/{}".format(self.__node_name__, self.__value__)
+    
+    def to_string(self, level=0):
+        result = StringIO()
+        prefix = " " * level
+        new_level = level + 2
+        # Write an indented self
+        result.write(prefix)
+        result.write(str(self))
+        result.write("\n")
+        # Write out each child
+        for child in self.__children__:
+            result.write(child.to_string(new_level))
+        
+        return result.getvalue()
+    
+    def add_child(self, *args, **kwargs):
+        child = Node(*args, **kwargs)
+        self.__children__.append(child)
+        return child
+    
+    def __lshift__(self, other):
+        if isinstance(other, SubNode):
+            other = [other]
+        for item in other:
+            self.add_child(*item.args, **item.kwargs)
+        return self
+
+class SubNode(object):
+    def __init__(self, *args, **kwargs):
+        self.args, self.kwargs = args, kwargs
+S = SubNode
+
+if __name__ == "__main__":
+    node = Node("Person", age=30)
+    with node as b:
+        b << S("ANodeName", "A Value")
+        b << [S("Dog%s" % i, i) for i in range(2)]     
+        b.Jason("Hi", emphasis="Loud", language="English")
+        for x in range(3):
+            b.add_child("Child" + str(x), "Yes")
+        with b.Webb("There") as webb:
+            webb.Legacy("Good")
+            webb.House("Nice")
+            with webb.Children() as children:
+                children.Sarah("Good")
+                children.Mike("Ok")
+        b.Hookah("Against It", illegal="true")
+             
+    import xml.etree.cElementTree as e
+       
+    result = b.to_xml()
+    print e.tostring(result)
+    print b.__pretty_xml__(e.tostring(result))
+
