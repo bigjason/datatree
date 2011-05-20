@@ -1,10 +1,10 @@
 from StringIO import StringIO
 
-from datatree.xmlnode import NodeXml
+from datatree.nodebase import NodeBase
 
 __all__ = ["Node", "SubNode", "S"]
 
-class Node(NodeXml):
+class Node(NodeBase):
     def __init__(self, node_name=None, node_value=None, **attrs):
         self.__children__ = []
         self.__node_name__ = node_name
@@ -73,24 +73,3 @@ class SubNode(object):
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
 S = SubNode
-
-if __name__ == "__main__":
-    node = Node("Person", age=30)
-    with node as b:
-        b << S("ANodeName", "A Value")
-        b << [S("Dog%s" % i, i) for i in range(2)]
-        b.Jason("Hi", emphasis="Loud", language="English")
-        for x in range(3):
-            b.add_child("Child" + str(x), "Yes")
-        with b.Webb("There") as webb:
-            webb.Legacy("Good")
-            webb.House("Nice")
-            with webb.Children() as children:
-                children.Sarah("Good")
-                children.Mike("Ok")
-        b.Hookah("Against It", illegal="true")
-
-    print node.__get_methods__()
-    result = node.to_xml_str()
-    print result
-
