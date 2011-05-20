@@ -4,8 +4,15 @@ try:
 except ImportError:
     import xml.etree.ElementTree as e
 
+from .nodebase import NodeBase
 
-class NodeXml(object):
+class NodeXml(NodeBase):
+
+    def __get_methods__(self):
+        this = set(["to_xml_str", "to_etree", "to_xml"])
+        other = super(NodeXml, self).__get_methods__()
+        return other.union(this)
+
 
     def to_xml(self, parent=None):
         attrs = { key: str(value) for key, value in self.__attrs__.iteritems() }

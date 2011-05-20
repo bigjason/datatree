@@ -10,22 +10,28 @@ class Node(NodeXml):
         self.__node_name__ = node_name
         self.__value__ = node_value
         self.__attrs__ = attrs
-            
+        self.__methods__ = self.__get_methods__()
+
+    def __get_methods__(self):
+        this = set(["to_string", "add_child"])
+        other = super(Node, self).__get_methods__()
+        return other.union(this)
+
     def __getattribute__(self, name):
         try:
             if (name.startswith("__") and name.endswith("__")) or \
-                name in ["to_string", "add_child", "to_xml", "to_xml_str", "to_etree"]:
-                val = object.__getattribute__(self, name)
+                name in self.__methods__:
+                val = super(Node, self).__getattribute__(name)
                 return val
             else:
                 raise ValueError()
         except:
             def add_child(self, node_value=None, node_name=None, **attrs):
-                child_node = Node(node_name=node_name or name, 
-                                  node_value=node_value, **attrs) 
+                child_node = Node(node_name=node_name or name,
+                                  node_value=node_value, **attrs)
                 self.__children__.append(child_node)
                 return child_node
-                
+
             return add_child.__get__(self)
 
     def __enter__(self):
@@ -33,10 +39,10 @@ class Node(NodeXml):
 
     def __exit__(self, exc_type, exc_value, traceback):
         return False
-    
+
     def __str__(self):
         return "{}/{}".format(self.__node_name__, self.__value__)
-    
+
     def to_string(self, level=0):
         result = StringIO()
         prefix = " " * level
@@ -48,14 +54,14 @@ class Node(NodeXml):
         # Write out each child
         for child in self.__children__:
             result.write(child.to_string(new_level))
-        
+
         return result.getvalue()
-    
+
     def add_child(self, *args, **kwargs):
         child = Node(*args, **kwargs)
         self.__children__.append(child)
         return child
-    
+
     def __lshift__(self, other):
         if isinstance(other, SubNode):
             other = [other]
@@ -72,7 +78,7 @@ if __name__ == "__main__":
     node = Node("Person", age=30)
     with node as b:
         b << S("ANodeName", "A Value")
-        b << [S("Dog%s" % i, i) for i in range(2)]     
+        b << [S("Dog%s" % i, i) for i in range(2)]
         b.Jason("Hi", emphasis="Loud", language="English")
         for x in range(3):
             b.add_child("Child" + str(x), "Yes")
@@ -83,10 +89,8 @@ if __name__ == "__main__":
                 children.Sarah("Good")
                 children.Mike("Ok")
         b.Hookah("Against It", illegal="true")
-             
-    import xml.etree.cElementTree as e
-       
-    result = b.to_xml()
-    print e.tostring(result)
-    print b.__pretty_xml__(e.tostring(result))
+
+    print node.__get_methods__()
+    result = node.to_xml_str()
+    print result
 
