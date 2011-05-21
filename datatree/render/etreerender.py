@@ -6,7 +6,7 @@ except ImportError:
 
 from .base import InternalRenderer
 
-class NodeXml(InternalRenderer):
+class ETreeRenderer(InternalRenderer):
     def render_node(self, node, parent=None):
         attrs = { key: str(value) for key, value in node.__attrs__.iteritems() }
         if parent is not None:

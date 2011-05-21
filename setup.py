@@ -18,6 +18,9 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     classifiers=[
+       "Development Status :: 3 - Alpha",
+       "Topic :: Text Processing :: Markup",
+       "Topic :: Text Processing :: Markup :: XML",
        "Operating System :: OS Independent",
        "Intended Audience :: Developers",
        "Programming Language :: Python :: 2.7"

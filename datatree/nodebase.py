@@ -2,7 +2,8 @@
 from .utils import get_class
 
 _plugins = [
-    [("etree", "xml"), "datatree.render.etreerender.NodeXml"]
+    [("etree", "xml"), "datatree.render.etreerender.ETreeRenderer"],
+    [("dict", "dictionary"), "datatree.render.dictrender.DictTreeRenderer"]
 ]
 
 class NodeBase(object):
