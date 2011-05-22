@@ -1,6 +1,6 @@
 import unittest
 
-from ..node import Node, S
+from datatree.node import Node, S
 
 class test_Node(unittest.TestCase):
 

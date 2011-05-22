@@ -1,8 +1,8 @@
 import unittest
 
-from ..node import Node
+from datatree.node import Node
 
-class Test(unittest.TestCase):
+class test_DictRenderer(unittest.TestCase):
 
 
     def setUp(self):

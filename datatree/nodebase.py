@@ -3,7 +3,8 @@ from .utils import get_class
 
 _plugins = [
     [("etree", "xml"), "datatree.render.etreerender.ETreeRenderer"],
-    [("dict", "dictionary"), "datatree.render.dictrender.DictTreeRenderer"]
+    [("dict", "dictionary"), "datatree.render.dictrender.DictTreeRenderer"],
+    [("json",), "datatree.render.jsonrender.JsonRenderer"]
 ]
 
 class NodeBase(object):
@@ -29,7 +30,7 @@ class NodeBase(object):
                     plugin[1] = render_kls
                 break
         # TODO: Should the renderers be instantiated?
-        return render_kls().render_string(self)
+        return render_kls().render(self)
 
     @staticmethod
     def register_renderer(klass):
