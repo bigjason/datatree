@@ -6,7 +6,8 @@ class JsonRenderer(DictTreeRenderer):
     
     def _convert_options(self, options):
         default_options = {
-            'pretty': True
+            'pretty': True,
+            'sort_keys': False
         }
         default_options.update(options)
         return default_options
@@ -15,6 +16,7 @@ class JsonRenderer(DictTreeRenderer):
         result = {}
         if opts.get("pretty"):
             result["indent"] = 4
+        result['sort_keys'] = opts.get('sort_keys')
         return result
     
     def render(self, base_node, options=None):

@@ -15,4 +15,4 @@ if __name__ == '__main__':
     print author.render('json')
     print
     print 'Dict:'
-    print author.render('dict')
+    print author.render('dict', pretty_string=True)

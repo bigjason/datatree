@@ -1,3 +1,5 @@
+from pprint import pformat
+
 from datatree.render.base import InternalRenderer
 
 class DictTreeRenderer(InternalRenderer):
@@ -5,17 +7,21 @@ class DictTreeRenderer(InternalRenderer):
     def render_node(self, node, parent=None, options=None):
         if parent == None: parent = {}
         if options == None: options = {}
-        
+
         if node.__children__:
             value = {}
             for child in node.__children__:
                 self.render_node(child, value, options=options)
         else:
             value = node.__value__
-            
+
         parent[node.__node_name__] = value
         return parent
 
-    def render_final(self, rendered, options={}):
-        return rendered
+    def render_final(self, rendered, options=None):
+        if options == None: options = {}
+        if options.get("pretty_string", False) == True:
+            return pformat(rendered, width=80)
+        else:
+            return rendered
 
