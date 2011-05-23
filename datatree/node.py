@@ -1,6 +1,6 @@
 from StringIO import StringIO
 
-from datatree.nodebase import NodeBase
+from datatree.base import NodeBase
 
 __all__ = ["Node", "SubNode", "S"]
 

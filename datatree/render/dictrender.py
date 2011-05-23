@@ -1,7 +1,7 @@
 from .base import InternalRenderer
 
 class DictTreeRenderer(InternalRenderer):
-    def render_node(self, node, parent={}):
+    def render_node(self, node, parent={}, options={}):
         # TODO: Figure out how to handle attributes here.
         if len(node.__children__) > 0:
             children = {}
@@ -13,6 +13,6 @@ class DictTreeRenderer(InternalRenderer):
         parent[node.__node_name__] = children
         return parent
 
-    def render_final(self, rendered):
+    def render_final(self, rendered, options={}):
         return rendered
 

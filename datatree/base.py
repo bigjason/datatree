@@ -11,7 +11,7 @@ class NodeBase(object):
     def __get_methods__(self):
         return set(["render", "register_renderer"])
 
-    def render(self, renderer="xml"):
+    def render(self, renderer="xml", **options):
         """Render the datatree from this node down using the provided renderer.
         
         :keyword renderer: The name of the renderer to use.  You may add more
@@ -30,7 +30,7 @@ class NodeBase(object):
                     plugin[1] = render_kls
                 break
         # TODO: Should the renderers be instantiated?
-        return render_kls().render(self)
+        return render_kls().render(self, **options)
 
     @staticmethod
     def register_renderer(klass):

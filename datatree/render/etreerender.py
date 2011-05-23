@@ -7,7 +7,7 @@ except ImportError:
 from .base import InternalRenderer
 
 class ETreeRenderer(InternalRenderer):
-    def render_node(self, node, parent=None):
+    def render_node(self, node, parent=None, options={}):
         attrs = { key: str(value) for key, value in node.__attrs__.iteritems() }
         if parent is not None:
             root = e.SubElement(parent, node.__node_name__, attrs)
@@ -21,11 +21,11 @@ class ETreeRenderer(InternalRenderer):
             self.render_node(child, root)
 
         return root
-    
+
     def to_etree(self):
         return e.ElementTree(self.to_xml())
-    
-    def render_final(self, rendered, pretty=True):
+
+    def render_final(self, rendered, pretty=True, options={}):
         return e.tostring(rendered)
 
     @staticmethod
