@@ -41,6 +41,19 @@ class test_Node(unittest.TestCase):
         self.assertEqual(child.__node_name__, "level1")
         self.assertEqual(child.__value__, "two")
         self.assertDictEqual(child.__attrs__, {"some": "attr"})
+        
+    def test_add_duplicate_nodes(self):
+        root = Node()
+        root.greeting("Hello")
+        root.greeting("Hi")
+        
+        hello = root.__children__[0]
+        hi = root.__children__[1]
+        
+        self.assertEqual(hello.__value__, "Hello")
+        self.assertEqual(hi.__value__, "Hi")
+        for child in root.__children__:
+            self.assertEqual(child.__node_name__, "greeting")
 
     def test_lshift_operator_single(self):
         root = Node("test_lshift_operator_single")

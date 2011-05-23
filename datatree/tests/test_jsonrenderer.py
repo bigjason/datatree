@@ -36,7 +36,7 @@ class test_JsonRenderer(unittest.TestCase):
         with author.novels(count=2) as novels:
             novels.novel("Small Gods", year=1992)
             novels.novel("The Fifth Elephant", year=1999)
-        print author.render('json')
+
         actual = self.json_to_dict(author.render('json'))
         expected = {'author': {
                         'name': 'Terry Pratchett',
