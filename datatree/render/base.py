@@ -14,7 +14,7 @@ class Renderer(object):
     def render_native(self, options={}):
         raise NotImplementedError("No render_native() method is provided for this renderer.")
 
-    def render(self, base_node, **options):
+    def render(self, base_node, options):
         """Renders the entire tree under base_node as a string."""
         return self.render_final(self.render_node(base_node, options=options), options=options)
 

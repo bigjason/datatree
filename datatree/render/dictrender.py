@@ -1,16 +1,19 @@
-from .base import InternalRenderer
+from datatree.render.base import InternalRenderer
 
 class DictTreeRenderer(InternalRenderer):
-    def render_node(self, node, parent={}, options={}):
-        # TODO: Figure out how to handle attributes here.
-        if len(node.__children__) > 0:
-            children = {}
+    # TODO: Figure out how to handle attributes here.
+    def render_node(self, node, parent=None, options=None):
+        if parent == None: parent = {}
+        if options == None: options = {}
+        
+        if node.__children__:
+            value = {}
             for child in node.__children__:
-                self.render_node(child, children)
+                self.render_node(child, value, options=options)
         else:
-            children = node.__value__
-
-        parent[node.__node_name__] = children
+            value = node.__value__
+            
+        parent[node.__node_name__] = value
         return parent
 
     def render_final(self, rendered, options={}):

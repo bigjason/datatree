@@ -4,7 +4,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as e
 
-from .base import InternalRenderer
+from datatree.render.base import InternalRenderer
 
 class ETreeRenderer(InternalRenderer):
     def render_node(self, node, parent=None, options={}):

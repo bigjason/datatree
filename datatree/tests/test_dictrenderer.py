@@ -22,14 +22,13 @@ class test_DictRenderer(unittest.TestCase):
             books.two(2)
             
         actual = root.render("dict")
-        expected = { "root": {
-                "name": "Ponty Feeb",
-                "place": "Holey",
-                "books" : {
-                    "one": 1,
-                    "two": 2
-                }
-            }
+        expected = {'root': {
+                        'name': 'Ponty Feeb',
+                        'place': 'Holey', 
+                        'books': {
+                            'two': 2, 
+                            'one': 1
+                        }, 
+                    }
         }
-
-        self.assertDictEqual(expected, actual)
+        self.assertDictEqual(actual, expected)

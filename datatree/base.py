@@ -30,7 +30,7 @@ class NodeBase(object):
                     plugin[1] = render_kls
                 break
         # TODO: Should the renderers be instantiated?
-        return render_kls().render(self, **options)
+        return render_kls().render(self, options=options)
 
     @staticmethod
     def register_renderer(klass):

@@ -3,6 +3,6 @@ from json import dumps
 from .dictrender import DictTreeRenderer
 
 class JsonRenderer(DictTreeRenderer):
-    def render(self, base_node):
+    def render(self, base_node, options={}):
         """Renders the entire tree under base_node as a json string."""
-        return dumps(self.render_final(self.render_node(base_node)))
+        return dumps(self.render_final(self.render_node(base_node, options=options), options=options))

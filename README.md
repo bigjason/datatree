@@ -23,7 +23,7 @@ A small example:
 
     print author.render() 
 
-Which produces:
+Which produces the xml:
 
     <author>
           <name>Terry Pratchett</name>
@@ -33,6 +33,18 @@ Which produces:
                 <novel year="1999">The Fifth Elephant</novel>
           </novels>
     </author>
+
+Or the Json:
+
+    {
+       "author":{
+          "name":"Terry Pratchett",
+          "genere":"Fantasy/Comedy",
+          "novels":{
+             "novel":"The Fifth Elephant"
+          }
+       }
+    }
 
 License
 -------
