@@ -1,4 +1,4 @@
-
+from copy import deepcopy
 
 class Renderer(object):
     @property
@@ -19,4 +19,14 @@ class Renderer(object):
         return self.render_final(self.render_node(base_node, options=options), options=options)
 
 class InternalRenderer(Renderer):
+    """Base class for included renderers."""
     friendly_names = []
+
+    @property
+    def default_options(self):
+        raise NotImplementedError()
+
+    def get_options(self, user_options):
+        options = deepcopy(self.default_options)
+        options.update(user_options)
+        return options
