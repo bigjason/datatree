@@ -6,6 +6,9 @@ __all__ = ["Node", "SubNode", "S"]
 
 class Node(NodeBase):
     def __init__(self, node_name=None, node_value=None, **attrs):
+        """
+        
+        """
         self.__children__ = []
         self.__node_name__ = node_name
         self.__value__ = node_value
