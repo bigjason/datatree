@@ -48,6 +48,7 @@ class DictTreeRenderer(InternalRenderer):
         else:
             return rendered
 
+# TODO: Move this class to a more general location.
 class NodeLossError(Exception):
     def __init__(self, msg="One or more nodes were lost due to duplicate keys."):
         super(NodeLossError, self).__init__(msg)

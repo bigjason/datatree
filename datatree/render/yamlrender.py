@@ -1,4 +1,3 @@
-
 from yaml import dump
 try:
     from yaml import CDumper as Dumper

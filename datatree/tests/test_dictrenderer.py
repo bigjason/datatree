@@ -93,3 +93,15 @@ class test_DictRenderer(unittest.TestCase):
             }
         }
         self.assertDictEqual(actual, expected)
+        
+    def test_default_root_name(self):
+        root = Node()
+        self.assertEqual(root.__node_name__, "root")
+
+    def test_run_as_callable(self):
+        root = Node()
+        root.item(1)
+
+        actual = root('dict')
+        expected = {'root': {'item': 1}}
+        self.assertDictEqual(actual, expected)
