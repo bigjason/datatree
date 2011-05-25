@@ -17,13 +17,13 @@ class test_JsonRenderer(unittest.TestCase):
         return loads(json)
 
     def test_json_basic(self):
-        root = Node("root")
+        root = Node('root')
         root.delay(500)
 
-        json = root.render("json")
+        json = root.render('json')
         actual = self.json_to_dict(json)
 
-        expected = {"root": {"delay": 500}}
+        expected = {'root': {'delay': 500}}
 
         self.assertEqual(actual, expected)
 
@@ -34,16 +34,14 @@ class test_JsonRenderer(unittest.TestCase):
         author.name('Terry Pratchett')
         author.genere('Fantasy/Comedy')
         with author.novels(count=2) as novels:
-            novels.novel("Small Gods", year=1992)
-            novels.novel("The Fifth Elephant", year=1999)
+            novels.novel('Small Gods', year=1992)
+            novels.novel('The Fifth Elephant', year=1999)
 
         actual = self.json_to_dict(author.render('json'))
         expected = {'author': {
                         'name': 'Terry Pratchett',
                         'genere': 'Fantasy/Comedy',
-                        'novels': {
-                            'novel': 'The Fifth Elephant'
-                        }
+                        'novels': ['Small Gods', 'The Fifth Elephant']
                     }
         }
         self.assertDictEqual(actual, expected)
