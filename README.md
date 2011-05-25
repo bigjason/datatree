@@ -47,6 +47,14 @@ Or the JSON:
         }
     }
 
+Or the YAML:
+
+    author:
+      genere: Fantasy/Comedy
+      name: Terry Pratchett
+      novels: [Small Gods, The Fifth Elephant]
+
+
 License
 -------
 This work is licensed under the Creative Commons Attribution 3.0 Unported 

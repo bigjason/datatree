@@ -14,5 +14,8 @@ if __name__ == '__main__':
     print 'JSON:'
     print author.render('json')
     print
+    print 'YAML'
+    print author.render('yaml')
+    print
     print 'Dict:'
     print author.render('dict', pretty_string=True)
