@@ -7,14 +7,14 @@ class JsonRenderer(DictTreeRenderer):
         'pretty': True,
         'sort_keys': False
     }
-        
+
     def _get_opts_kw(self, opts):
         result = {}
-        if opts.get("pretty"):
+        if opts.get('pretty'):
             result["indent"] = 4
         result['sort_keys'] = opts.get('sort_keys')
         return result
-    
+
     def render(self, base_node, options=None):
         """Renders the entire tree under base_node as a json string."""
         if options == None: options = {}

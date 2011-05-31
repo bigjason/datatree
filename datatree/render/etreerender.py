@@ -12,7 +12,7 @@ class ETreeRenderer(InternalRenderer):
         if parent is not None:
             root = e.SubElement(parent, node.__node_name__, attrs)
         else:
-            root = e.Element(node.__node_name__ or "root", attrs)
+            root = e.Element(node.__node_name__ or 'root', attrs)
 
         if node.__value__ is not None:
             root.text = str(node.__value__)
@@ -29,7 +29,7 @@ class ETreeRenderer(InternalRenderer):
         return e.tostring(rendered)
 
     @staticmethod
-    def to_pretty_xml(xml_str, indent="  ", encoding=None):
+    def to_pretty_xml(xml_str, indent='  ', encoding=None):
         """Slow and messy.  Don't use in production."""
         result = minidom.parseString(xml_str).toprettyxml(indent=indent, encoding=encoding)
         if encoding:

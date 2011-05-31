@@ -3,7 +3,7 @@ try:
     from yaml import CDumper as Dumper
 except ImportError:
     from yaml import Dumper
-    
+
 from .dictrender import DictTreeRenderer
 
 class YamlRenderer(DictTreeRenderer):

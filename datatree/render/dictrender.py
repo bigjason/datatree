@@ -7,7 +7,7 @@ class DictTreeRenderer(InternalRenderer):
         'pretty_string': False,
         'allow_node_loss': False
     }
-    
+
     def _children_distinct_names(self, children):
         return { c.__node_name__ for c in children }
 
@@ -25,7 +25,7 @@ class DictTreeRenderer(InternalRenderer):
             elif (len(node.__children__) > 1 and \
                   len(children_names) > 1 and \
                   len(children_names) != len(node.__children__)) and \
-                  not user_options["allow_node_loss"]:
+                  not user_options['allow_node_loss']:
                 raise NodeLossError()
             else:
                 value = {}
@@ -43,12 +43,12 @@ class DictTreeRenderer(InternalRenderer):
     def render_final(self, rendered, options=None):
         if options == None: options = {}
         user_options = self.get_options(options)
-        if user_options.get("pretty_string", False) == True:
+        if user_options.get('pretty_string', False) == True:
             return pformat(rendered, width=80)
         else:
             return rendered
 
 # TODO: Move this class to a more general location.
 class NodeLossError(Exception):
-    def __init__(self, msg="One or more nodes were lost due to duplicate keys."):
+    def __init__(self, msg='One or more nodes were lost due to duplicate keys.'):
         super(NodeLossError, self).__init__(msg)
