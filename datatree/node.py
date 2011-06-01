@@ -1,6 +1,6 @@
 from StringIO import StringIO
 
-from datatree.base import NodeBase
+from datatree.base import NodeBase, AnnotationNodeBase
 
 __all__ = ['Node', 'SubNode', 'S']
 
@@ -13,7 +13,8 @@ class Node(NodeBase):
         self.__methods__ = self.__get_methods__()
 
     def __get_methods__(self):
-        this = set(['to_string', 'add_child'])
+        this = set(['to_string', 'add_child', 'add_comment', 'add_declaration',
+                    'add_instruction'])
         other = super(Node, self).__get_methods__()
         return other.union(this)
 
@@ -57,10 +58,29 @@ class Node(NodeBase):
 
         return result.getvalue()
 
+    ### Child Manipulation Methods ###
+
     def add_child(self, *args, **kwargs):
         child = Node(*args, **kwargs)
         self.__children__.append(child)
         return child
+
+    def add_comment(self, text):
+        comment = CommentNode(text)
+        self.__children__.append(comment)
+        return comment
+
+    def add_declaration(self, name, *attrs):
+        declaration = DeclareNode(name, *attrs)
+        self.__children__.append(declaration)
+        return declaration
+
+    def add_instruction(self, name, *attrs):
+        instruction = InstructNode(name, *attrs)
+        self.__children__.append(instruction)
+        return instruction
+
+    ### Operator Overloads ###
 
     def __lshift__(self, other):
         if isinstance(other, SubNode):
@@ -73,3 +93,20 @@ class SubNode(object):
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
 S = SubNode
+
+class CommentNode(AnnotationNodeBase):
+    def __init__(self, text):
+        self.text = text
+comment = CommentNode
+
+class DeclareNode(AnnotationNodeBase):
+    def __init__(self, name, *attrs):
+        self.name = name
+        self.attrs = attrs
+declare = DeclareNode
+
+class InstructNode(AnnotationNodeBase):
+    def __init__(self, name, *attrs):
+        self.name = name
+        self.attrs = attrs
+instruct = InstructNode

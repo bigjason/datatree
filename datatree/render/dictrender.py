@@ -41,9 +41,8 @@ class DictTreeRenderer(InternalRenderer):
         return parent
 
     def render_final(self, rendered, options=None):
-        if options == None: options = {}
-        user_options = self.get_options(options)
-        if user_options.get('pretty_string', False) == True:
+        options = self.get_options(options)
+        if options.get('pretty_string', False) == True:
             return pformat(rendered, width=80)
         else:
             return rendered

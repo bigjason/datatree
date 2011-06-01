@@ -2,7 +2,8 @@
 from .utils import get_class
 
 _plugins = [
-    [('etree', 'xml'), 'datatree.render.etreerender.ETreeRenderer'],
+    [("xml",), 'datatree.render.xmlrenderer.XmlRenderer'],
+    [('etree'), 'datatree.render.etreerender.ETreeRenderer'],
     [('dict', 'dictionary'), 'datatree.render.dictrender.DictTreeRenderer'],
     [('json', 'jsn'), 'datatree.render.jsonrender.JsonRenderer'],
     [('yaml', 'yml'), 'datatree.render.yamlrender.YamlRenderer']
@@ -47,3 +48,6 @@ class NodeBase(object):
             klass = get_class(klass)
         global _plugins
         _plugins.append([tuple(klass.friendly_names), klass])
+
+class AnnotationNodeBase(object):
+    pass
