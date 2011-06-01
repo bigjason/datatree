@@ -5,6 +5,7 @@ if __name__ == '__main__':
     author.name('Terry Pratchett')
     author.genere('Fantasy/Comedy')
     with author.novels(count=2) as novels:
+        novels // "Only 2 books listed"
         novels.novel('Small Gods', year=1992)
         novels.novel('The Fifth Elephant', year=1999)
 

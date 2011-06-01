@@ -1,20 +1,28 @@
 from StringIO import StringIO
 
-from datatree.base import NodeBase, AnnotationNodeBase
+from datatree.base import NodeBase
 
 __all__ = ['Node', 'SubNode', 'S']
 
+class NodeType(object):
+    REGULAR = 1
+    COMMENT = 2
+    DECLARE = 3
+    INSTRUCT = 4
+
 class Node(NodeBase):
-    def __init__(self, node_name='root', node_value=None, **attrs):
+    def __init__(self, node_name='root', node_value=None,
+            node_type=NodeType.REGULAR, **attrs):
         self.__children__ = []
         self.__node_name__ = node_name
         self.__value__ = node_value
+        self.__node_type__ = node_type
         self.__attrs__ = attrs
         self.__methods__ = self.__get_methods__()
 
     def __get_methods__(self):
-        this = set(['to_string', 'add_child', 'add_comment', 'add_declaration',
-                    'add_instruction'])
+        this = set(['to_string', 'add_child', 'COMMENT', 'DECLARE',
+                    'INSTRUCT'])
         other = super(Node, self).__get_methods__()
         return other.union(this)
 
@@ -48,11 +56,9 @@ class Node(NodeBase):
         result = StringIO()
         prefix = ' ' * level
         new_level = level + 2
-        # Write an indented self
         result.write(prefix)
         result.write(str(self))
         result.write('\n')
-        # Write out each child
         for child in self.__children__:
             result.write(child.to_string(new_level))
 
@@ -65,20 +71,14 @@ class Node(NodeBase):
         self.__children__.append(child)
         return child
 
-    def add_comment(self, text):
-        comment = CommentNode(text)
-        self.__children__.append(comment)
-        return comment
+    def COMMENT(self, text):
+        return self.add_child(node_value=text, node_type=NodeType.COMMENT)
 
-    def add_declaration(self, name, *attrs):
-        declaration = DeclareNode(name, *attrs)
-        self.__children__.append(declaration)
-        return declaration
+    def DECLARE(self, name, *attrs):
+        return self.add_child(node_name=name, node_type=NodeType.DECLARE, *attrs)
 
-    def add_instruction(self, name, *attrs):
-        instruction = InstructNode(name, *attrs)
-        self.__children__.append(instruction)
-        return instruction
+    def INSTRUCT(self, name, *attrs):
+        return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, *attrs)
 
     ### Operator Overloads ###
 
@@ -89,24 +89,10 @@ class Node(NodeBase):
             self.add_child(*item.args, **item.kwargs)
         return self
 
+    def __floordiv__(self, text):
+        return self.COMMENT(text)
+
 class SubNode(object):
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
 S = SubNode
-
-class CommentNode(AnnotationNodeBase):
-    def __init__(self, text):
-        self.text = text
-comment = CommentNode
-
-class DeclareNode(AnnotationNodeBase):
-    def __init__(self, name, *attrs):
-        self.name = name
-        self.attrs = attrs
-declare = DeclareNode
-
-class InstructNode(AnnotationNodeBase):
-    def __init__(self, name, *attrs):
-        self.name = name
-        self.attrs = attrs
-instruct = InstructNode

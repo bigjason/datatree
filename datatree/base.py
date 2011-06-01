@@ -48,6 +48,3 @@ class NodeBase(object):
             klass = get_class(klass)
         global _plugins
         _plugins.append([tuple(klass.friendly_names), klass])
-
-class AnnotationNodeBase(object):
-    pass
