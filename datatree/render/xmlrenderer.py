@@ -25,12 +25,12 @@ class XmlRenderer(InternalRenderer):
             doc.write(indent)
 
         if not node.__children__ and not node.__value__:
-            doc.write("<{} {}{}/>".format(node.__node_name__,
+            doc.write('<{} {}{}/>'.format(node.__node_name__,
                                           attrs,
-                                          " " if attrs else ""))
+                                          ' ' if attrs else ''))
         else:
-            doc.write("<{}{}{}>".format(node.__node_name__,
-                                        " " if attrs else "",
+            doc.write('<{}{}{}>'.format(node.__node_name__,
+                                        ' ' if attrs else '',
                                         attrs))
             if node.__value__:
                 if len(node.__children__) > 0:
@@ -53,6 +53,6 @@ class XmlRenderer(InternalRenderer):
 
     @staticmethod
     def _get_attrs_str(attrs):
-        attrs = ("{}={}".format(key, quoteattr(str(value)))
+        attrs = ('{}={}'.format(key, quoteattr(str(value)))
                     for key, value in attrs.iteritems())
-        return " ".join(attrs).strip()
+        return ' '.join(attrs).strip()
