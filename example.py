@@ -4,13 +4,13 @@ if __name__ == '__main__':
     author = Node('author')
     author.name('Terry Pratchett')
     author.genere('Fantasy/Comedy')
+    author // "Only 2 books listed"
     with author.novels(count=2) as novels:
-        novels // "Only 2 books listed"
         novels.novel('Small Gods', year=1992)
         novels.novel('The Fifth Elephant', year=1999)
 
     print 'XML:'
-    print author.render()
+    print author.render(pretty=True)
     print
     print 'JSON:'
     print author.render('json')
