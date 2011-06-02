@@ -10,7 +10,7 @@ from datatree.render.xmlrenderer import XmlRenderer
 class test_XmlRenderer(unittest.TestCase):
     def test_get_attrs_str(self):
         input = {'age': '<b>300</b>', 'weight': 225}
-        actual = XmlRenderer._get_attrs_str(input)
+        actual = XmlRenderer.get_attrs_str(input)
 
         self.assertIn('age=', actual)
         self.assertIn('&lt;b&gt;300&lt;/b&gt;"', actual,

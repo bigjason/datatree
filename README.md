@@ -16,22 +16,24 @@ A small example:
 
     author = Node('author')
     author.name('Terry Pratchett')
-    author.genere('Fantasy/Comedy')
+    author.genre('Fantasy/Comedy')
+    author // "Only 2 books listed"
     with author.novels(count=2) as novels:
-        novels.novel("Small Gods", year=1992) 
-        novels.novel("The Fifth Elephant", year=1999)
+        novels.novel('Small Gods', year=1992)
+        novels.novel('The Fifth Elephant', year=1999)
 
     print author.render() 
 
 Which produces the XML:
 
     <author>
-          <name>Terry Pratchett</name>
-          <genere>Fantasy/Comedy</genere>
-          <novels count="2">
-                <novel year="1992">Small Gods</novel>
-                <novel year="1999">The Fifth Elephant</novel>
-          </novels>
+        <name>Terry Pratchett</name>
+        <genre>Fantasy/Comedy</genre>
+        <!-- Only 2 books listed -->
+        <novels count="2">
+            <novel year="1992">Small Gods</novel>
+            <novel year="1999">The Fifth Elephant</novel>
+        </novels>
     </author>
 
 Or the JSON:
@@ -39,7 +41,7 @@ Or the JSON:
     {
         "author": {
             "name": "Terry Pratchett", 
-            "genere": "Fantasy/Comedy", 
+            "genre": "Fantasy/Comedy", 
             "novels": [
                 "Small Gods", 
                 "The Fifth Elephant"
@@ -50,7 +52,7 @@ Or the JSON:
 Or the YAML:
 
     author:
-      genere: Fantasy/Comedy
+      genre: Fantasy/Comedy
       name: Terry Pratchett
       novels: [Small Gods, The Fifth Elephant]
 

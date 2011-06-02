@@ -3,7 +3,7 @@ from datatree.node import Node
 if __name__ == '__main__':
     author = Node('author')
     author.name('Terry Pratchett')
-    author.genere('Fantasy/Comedy')
+    author.genre('Fantasy/Comedy')
     author // "Only 2 books listed"
     with author.novels(count=2) as novels:
         novels.novel('Small Gods', year=1992)

@@ -16,7 +16,7 @@ class DictTreeRenderer(InternalRenderer):
         if parent == None: parent = {}
         if options == None: options = {}
         user_options = self.get_options(options)
-        children = self.data(node)
+        children = self.data_only(node)
 
         if children:
             children_names = self._children_distinct_names(children)

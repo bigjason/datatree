@@ -26,7 +26,7 @@ class InternalRenderer(Renderer):
 
     ### Node Methods ###
 
-    def data(self, node):
+    def data_only(self, node):
         """Return all DATA nodes only."""
         return self.__filter(node, NodeType.DATA)
     
