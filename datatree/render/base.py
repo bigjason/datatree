@@ -27,9 +27,13 @@ class InternalRenderer(Renderer):
     ### Node Methods ###
 
     def data_only(self, node):
-        """Return all DATA nodes only."""
+        """Return all DATA child nodes only."""
         return self.__filter(node, NodeType.DATA)
-    
+
+    def instruction_only(self, node):
+        """Return all INSTRUCT child nodes only."""
+        return self.__filter(node, NodeType.INSTRUCT)
+
     def __filter(self, node, node_type):
         return [x for x in node.__children__ if x.__node_type__ == node_type]
 

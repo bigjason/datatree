@@ -2,6 +2,7 @@ from datatree.node import Node
 
 if __name__ == '__main__':
     author = Node('author')
+    author.INSTRUCT('xml')
     author.name('Terry Pratchett')
     author.genre('Fantasy/Comedy')
     author // "Only 2 books listed"

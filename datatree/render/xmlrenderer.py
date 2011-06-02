@@ -17,9 +17,15 @@ class XmlRenderer(InternalRenderer):
         options = self.get_options(options)
         indent = options.get('indent') * level if options.get('pretty') else ''
         newline = '\n' if options.get('pretty') else ''
-        attrs = self.get_attrs_str(node.__attrs__)
+
+        def start_line_str():
+            return "{}{}".format(newline, indent)
+
+        def start_line():
+            doc.write(start_line_str())
 
         def data_node():
+            attrs = self.get_attrs_str(node.__attrs__)
             if not node.__children__ and not node.__value__:
                 doc.write('<{} {}{}/>'.format(node.__node_name__,
                                               attrs,
@@ -44,28 +50,42 @@ class XmlRenderer(InternalRenderer):
 
         def comment_node():
             doc.write('<!-- {} -->'.format(str(node.__value__ or '').strip()))
-            
-        def instruct_node():
-            pass
-        
+
+        def instruct_node(child_node):
+            attrs = {}
+            if child_node.__node_name__ == 'xml':
+                attrs['version'] = '1.0'
+                attrs['encoding'] = 'UTF-8'
+            attrs.update(child_node.__attrs__)
+            attrs_str = self.get_attrs_str(attrs)
+
+            return '<?{}{}{}?>'.format(child_node.__node_name__,
+                                       ' ' if attrs_str else '',
+                                       attrs_str)
+
         def declare_node():
             pass
 
         if doc is None:
             doc = StringIO()
-        else:
-            doc.write(newline)
-            doc.write(indent)
+            # Only process instructions on the root node and always at the start
+            l = start_line_str().join([instruct_node(child)
+                                       for child in self.instruction_only(node)])
+            doc.write(l)
 
         if node.__node_type__ == NodeType.DATA:
+            start_line()
             data_node()
         elif node.__node_type__ == NodeType.COMMENT:
+            start_line()
             comment_node()
         elif node.__node_type__ == NodeType.INSTRUCT:
-            instruct_node()
+            pass # INSTRUCT nodes are handled earlier in the process.
         elif node.__node_type__ == NodeType.DECLARE:
+            start_line()
             declare_node()
         else:
+            start_line()
             data_node() # Unknown type, try the sanest thing
 
         return doc.getvalue()

@@ -72,13 +72,13 @@ class Node(NodeBase):
         return child
 
     def COMMENT(self, text):
-        return self.add_child(node_value=text, node_type=NodeType.COMMENT)
+        return self.add_child(node_name="!COMMENT!", node_value=text, node_type=NodeType.COMMENT)
 
     def DECLARE(self, name, *attrs):
         return self.add_child(node_name=name, node_type=NodeType.DECLARE, *attrs)
 
-    def INSTRUCT(self, name, *attrs):
-        return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, *attrs)
+    def INSTRUCT(self, name, **attrs):
+        return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, **attrs)
 
     ### Operator Overloads ###
 
