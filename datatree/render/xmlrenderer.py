@@ -7,16 +7,17 @@ class XmlRenderer(InternalRenderer):
     """
     Custom xml provider to support full xml options.
     """
-    
+
     default_options = {
-        'pretty': False
+        'pretty': False,
+        'indent': '    '
     }
 
     def render_node(self, node, doc=None, options=None, level=0):
         options = self.get_options(options)
-        indent = '    ' * level if options.get('pretty') else ''
+        indent = options.get('indent') * level if options.get('pretty') else ''
         newline = '\n' if options.get('pretty') else ''
-        
+
         attrs = self._get_attrs_str(node.__attrs__)
         if doc is None:
             doc = StringIO()
@@ -37,10 +38,10 @@ class XmlRenderer(InternalRenderer):
                     doc.write(newline)
                     doc.write(indent)
                 doc.write(escape(str(node.__value__)))
-                    
+
             for child in node.__children__:
                 self.render_node(child, doc=doc, level=level + 1, options=options)
-                
+
             if len(node.__children__) > 0:
                 doc.write(newline)
                 doc.write(indent)

@@ -16,20 +16,21 @@ class DictTreeRenderer(InternalRenderer):
         if parent == None: parent = {}
         if options == None: options = {}
         user_options = self.get_options(options)
+        children = self.data(node)
 
-        if node.__children__:
-            children_names = self._children_distinct_names(node.__children__)
-            if len(node.__children__) > 1 and \
+        if children:
+            children_names = self._children_distinct_names(children)
+            if len(children) > 1 and \
                len(children_names) == 1:
                 value = []
-            elif (len(node.__children__) > 1 and \
+            elif (len(children) > 1 and \
                   len(children_names) > 1 and \
-                  len(children_names) != len(node.__children__)) and \
+                  len(children_names) != len(children)) and \
                   not user_options['allow_node_loss']:
                 raise NodeLossError()
             else:
                 value = {}
-            for child in node.__children__:
+            for child in children:
                 self.render_node(child, value, options=options)
         else:
             value = node.__value__

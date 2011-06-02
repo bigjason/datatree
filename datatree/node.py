@@ -5,14 +5,14 @@ from datatree.base import NodeBase
 __all__ = ['Node', 'SubNode', 'S']
 
 class NodeType(object):
-    REGULAR = 1
+    DATA = 1
     COMMENT = 2
     DECLARE = 3
     INSTRUCT = 4
 
 class Node(NodeBase):
     def __init__(self, node_name='root', node_value=None,
-            node_type=NodeType.REGULAR, **attrs):
+            node_type=NodeType.DATA, **attrs):
         self.__children__ = []
         self.__node_name__ = node_name
         self.__value__ = node_value

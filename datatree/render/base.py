@@ -1,5 +1,7 @@
 from copy import deepcopy
 
+from datatree.node import NodeType
+
 class Renderer(object):
     @property
     def friendly_names(self):
@@ -21,6 +23,17 @@ class Renderer(object):
 class InternalRenderer(Renderer):
     """Base class for included renderers."""
     friendly_names = []
+
+    ### Node Methods ###
+
+    def data(self, node):
+        """Return all DATA nodes only."""
+        return self.__filter(node, NodeType.DATA)
+    
+    def __filter(self, node, node_type):
+        return [x for x in node.__children__ if x.__node_type__ == node_type]
+
+    ### Option Methods ###
 
     @property
     def default_options(self):
