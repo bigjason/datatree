@@ -4,11 +4,12 @@ try:
 except ImportError:
     import xml.etree.ElementTree as e
 
-from datatree.node import Node
+from datatree import Tree
 
 class test_ETreeRenderer(unittest.TestCase):
     def test_single_level(self):
-        root = Node('a', 'Here', href='url', title='A Title')
+        tree = Tree()
+        root = tree.a('Here', href='url', title='A Title')
         actual = root.render('xml')
         result = e.fromstring(actual)
 
@@ -18,7 +19,8 @@ class test_ETreeRenderer(unittest.TestCase):
         self.assertEqual(result.text, 'Here')
 
     def test_multi_level(self):
-        root = Node('root', level=1)
+        tree = Tree()
+        root = tree.root(level=1)
         with root.second(level=2) as two:
             two.third('Three', level=3)
         root.fourth('four', level=2)

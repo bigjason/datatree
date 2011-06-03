@@ -4,7 +4,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as e
 
-from datatree import Node
+from datatree import Tree
 from datatree.render.xmlrenderer import XmlRenderer
 
 class test_XmlRenderer(unittest.TestCase):
@@ -19,19 +19,20 @@ class test_XmlRenderer(unittest.TestCase):
         self.assertIn('"225"', actual,
                       "weight was not quoted properly")
 
-    def get_author(self):        
-        author = Node('author', rating="<b>5/6 Stars</b>")
-        author.name('Terry Pratchett')
-        author.genere('Fantasy/Comedy')
-        author.country(abbreviation="UK")
-        author.living()
-        with author.novels(count=2) as novels:
-            novels.novel('Small Gods', year=1992)
-            novels.novel('The Fifth Elephant', year=1999)
-            with novels.shorts(count=2) as shorts:
-                shorts.short("Short Story 1")
-                shorts.short("Short Story 2")
-        return author
+    def get_author(self):
+        tree = Tree()        
+        with tree.author(rating="<b>5/6 Stars</b>") as author:
+            author.name('Terry Pratchett')
+            author.genere('Fantasy/Comedy')
+            author.country(abbreviation="UK")
+            author.living()
+            with author.novels(count=2) as novels:
+                novels.novel('Small Gods', year=1992)
+                novels.novel('The Fifth Elephant', year=1999)
+                with novels.shorts(count=2) as shorts:
+                    shorts.short("Short Story 1")
+                    shorts.short("Short Story 2")
+        return tree
             
     def test_render_multi_levels(self):
         author = self.get_author()

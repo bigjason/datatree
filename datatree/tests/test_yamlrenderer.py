@@ -6,24 +6,14 @@ try:
 except ImportError:
     from yaml import Loader
     
-from datatree.node import Node
+from datatree import Tree
 
 class test_YamlRenderer(unittest.TestCase):
-
-
-    def setUp(self):
-        pass
-
-
-    def tearDown(self):
-        pass
-
-
     def yaml_to_dict(self, yaml_text):
         return load(yaml_text, Loader=Loader)
     
     def test_yaml_basic(self):
-        root = Node('root')
+        root = Tree().root()
         root.delay(500)
 
         json = root.render('yaml')
@@ -36,7 +26,7 @@ class test_YamlRenderer(unittest.TestCase):
 
     def test_yaml_nested(self):
 
-        author = Node('author')
+        author = Tree().author()
         author.name('Terry Pratchett')
         author.genere('Fantasy/Comedy')
         with author.novels(count=2) as novels:

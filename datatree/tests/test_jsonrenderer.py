@@ -1,23 +1,14 @@
 from json import loads
 import unittest
 
-from datatree.node import Node
+from datatree import Tree
 
 class test_JsonRenderer(unittest.TestCase):
-
-
-    def setUp(self):
-        pass
-
-
-    def tearDown(self):
-        pass
-
     def json_to_dict(self, json):
         return loads(json)
 
     def test_json_basic(self):
-        root = Node('root')
+        root = Tree().root()
         root.delay(500)
 
         json = root.render('json')
@@ -30,7 +21,7 @@ class test_JsonRenderer(unittest.TestCase):
 
     def test_json_nested(self):
 
-        author = Node('author')
+        author = Tree().author()
         author.name('Terry Pratchett')
         author.genere('Fantasy/Comedy')
         with author.novels(count=2) as novels:

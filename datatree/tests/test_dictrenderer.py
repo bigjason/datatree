@@ -1,18 +1,19 @@
 import unittest
 
-from datatree.node import Node, S
+from datatree import Tree, S
 from datatree.render.dictrender import DictTreeRenderer, NodeLossError
 
 class test_DictRenderer(unittest.TestCase):
     def test_nested_render(self):
-        root = Node('root')
-        root.name('Ponty Feeb')
-        root.place('Holey')
-        with root.books() as books:
-            books.one(1)
-            books.two(2)
+        tree = Tree()
+        with tree.root('root') as root:
+            root.name('Ponty Feeb')
+            root.place('Holey')
+            with root.books() as books:
+                books.one(1)
+                books.two(2)
 
-        actual = root.render('dict')
+        actual = tree.render('dict')
         expected = {'root': {
                         'name': 'Ponty Feeb',
                         'place': 'Holey',
@@ -25,19 +26,21 @@ class test_DictRenderer(unittest.TestCase):
         self.assertDictEqual(actual, expected)
         
     def test__children_distinct_names(self):
-        root = Node()
-        root.person('One')
-        root.person('Two')
-        root.person('Three')
+        tree = Tree()
+        with tree.root() as root:
+            root.person('One')
+            root.person('Two')
+            root.person('Three')
         
         render = DictTreeRenderer()
         self.assertSetEqual(render._children_distinct_names(root.__children__), set(["person"]))
 
     def test__children_distinct_names_are_different(self):
-        root = Node()
-        root.person('One')
-        root.different('Two')
-        root.strokes('Three')
+        tree = Tree()
+        with tree.root() as root:
+            root.person('One')
+            root.different('Two')
+            root.strokes('Three')
         
         render = DictTreeRenderer()
         expected = set(["person", "different", "strokes"])
@@ -45,9 +48,10 @@ class test_DictRenderer(unittest.TestCase):
         
     def test__children_distinct_names_large(self):
         render = DictTreeRenderer()
-        root = Node()
-
-        root << [S('Node', i) for i in range(1000)]
+        tree = Tree()
+        with tree.root() as root:
+            root << [S('Node', i) for i in range(1000)]
+            
         expected = set(["Node"])
         self.assertSetEqual(render._children_distinct_names(root.__children__), expected)
         
@@ -57,13 +61,14 @@ class test_DictRenderer(unittest.TestCase):
     
 
     def test_duplicate_nodes_conversion(self):
-        root = Node('tale')
-        root.level('absurd')
-        with root.people() as people:
-            people.person('Hobo')
-            people.person('Princess')
+        tree = Tree()
+        with tree.tale() as root:
+            root.level('absurd')
+            with root.people() as people:
+                people.person('Hobo')
+                people.person('Princess')
 
-        actual = root.render('dict')
+        actual = tree.render('dict')
         expected = {'tale': {
                 'level': 'absurd',
                 'people': ['Hobo', 'Princess']
@@ -72,21 +77,23 @@ class test_DictRenderer(unittest.TestCase):
         self.assertDictEqual(actual, expected)
 
     def test_duplicate_nodes_nodelosserror(self):
-        root = Node('tale')
-        root.level('absurd')
-        root.level('stupid')
-        root.handle('lame')
+        tree = Tree()
+        with tree.root('tale') as root:
+            root.level('absurd')
+            root.level('stupid')
+            root.handle('lame')
         
         with self.assertRaises(NodeLossError):
-            root.render('dict')
+            tree.render('dict')
 
     def test_render_option_allow_node_loss(self):
-        root = Node('tale')
-        root.level('absurd')
-        root.level('stupid')
-        root.handle('lame')
+        tree = Tree()
+        with tree.tale() as root:
+            root.level('absurd')
+            root.level('stupid')
+            root.handle('lame')
         
-        actual = root.render('dict', allow_node_loss=True)
+        actual = tree.render('dict', allow_node_loss=True)
         expected = {'tale': {
                 'level': 'stupid',
                 'handle': 'lame'
@@ -94,14 +101,16 @@ class test_DictRenderer(unittest.TestCase):
         }
         self.assertDictEqual(actual, expected)
         
-    def test_default_root_name(self):
-        root = Node()
-        self.assertEqual(root.__node_name__, "root")
+    def test_add_node_return(self):
+        tree = Tree()
+        root = tree.root()
+        self.assertEqual(root, tree.__children__[0])
 
     def test_run_as_callable(self):
-        root = Node()
-        root.item(1)
+        tree = Tree()
+        with tree.root() as root:
+            root.item(1)
 
-        actual = root('dict')
+        actual = tree('dict')
         expected = {'root': {'item': 1}}
         self.assertDictEqual(actual, expected)
