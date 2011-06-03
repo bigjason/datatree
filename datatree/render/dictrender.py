@@ -1,6 +1,7 @@
 from pprint import pformat
 
 from datatree.render.base import InternalRenderer
+from datatree.node import NodeType
 
 class DictTreeRenderer(InternalRenderer):
     default_options = {
@@ -35,7 +36,9 @@ class DictTreeRenderer(InternalRenderer):
         else:
             value = node.__value__
 
-        if isinstance(parent, dict):
+        if node.__node_type__ == NodeType.TREE:
+            parent = value
+        elif isinstance(parent, dict):
             parent[node.__node_name__] = value
         else:
             parent.append(value)

@@ -2,13 +2,14 @@ from StringIO import StringIO
 
 from datatree.base import NodeBase
 
-__all__ = ['Node', 'SubNode', 'S']
+__all__ = ['Tree', 'Node', 'SubNode', 'S']
 
 class NodeType(object):
-    DATA = 1
-    COMMENT = 2
-    DECLARE = 3
-    INSTRUCT = 4
+    TREE = 1
+    DATA = 2
+    COMMENT = 3
+    DECLARE = 4
+    INSTRUCT = 5
 
 class Node(NodeBase):
     def __init__(self, node_name='root', node_value=None,
@@ -91,6 +92,12 @@ class Node(NodeBase):
 
     def __floordiv__(self, text):
         return self.COMMENT(text)
+
+class Tree(Node):
+    def __init__(self, *args, **kwargs):
+        kwargs['node_name'] = None
+        kwargs['node_type'] = NodeType.TREE
+        super(Tree, self).__init__(*args, **kwargs)
 
 class SubNode(object):
     def __init__(self, *args, **kwargs):

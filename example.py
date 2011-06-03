@@ -1,23 +1,24 @@
-from datatree.node import Node
+from datatree.node import Tree
 
 if __name__ == '__main__':
-    author = Node('author')
-    author.INSTRUCT('xml')
-    author.name('Terry Pratchett')
-    author.genre('Fantasy/Comedy')
-    author // "Only 2 books listed"
-    with author.novels(count=2) as novels:
-        novels.novel('Small Gods', year=1992)
-        novels.novel('The Fifth Elephant', year=1999)
+    tree = Tree()
+    tree.INSTRUCT('xml')
+    with tree.author() as author: 
+        author.name('Terry Pratchett')
+        author.genre('Fantasy/Comedy')
+        author // "Only 2 books listed"
+        with author.novels(count=2) as novels:
+            novels.novel('Small Gods', year=1992)
+            novels.novel('The Fifth Elephant', year=1999)
 
     print 'XML:'
-    print author.render(pretty=True)
+    print tree.render(pretty=True)
     print
     print 'JSON:'
-    print author.render('json')
+    print tree.render('json')
     print
     print 'YAML'
-    print author.render('yaml')
+    print tree.render('yaml')
     print
     print 'Dict:'
-    print author.render('dict', pretty_string=True)
+    print tree.render('dict', pretty_string=True)
