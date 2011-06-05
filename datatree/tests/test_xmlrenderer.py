@@ -4,7 +4,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as e
 
-from datatree import Tree, Name
+from datatree import Tree, __
 from datatree.render.xmlrenderer import XmlRenderer
 
 class test_XmlRenderer(unittest.TestCase):
@@ -59,7 +59,7 @@ class test_XmlRenderer(unittest.TestCase):
         
     def test_render_declatation(self):
         tree = Tree()
-        tree.DECLARE('ELEMENT', Name.Value, 'A value here.')
+        tree.DECLARE('ELEMENT', __.Value, 'A value here.')
         self.assertIn(tree(), r'<!ELEMENT Value "A value here.">')
         
     def test_render_instruction_xml(self):
@@ -76,7 +76,7 @@ class test_XmlRenderer(unittest.TestCase):
         tree = Tree()
         tree.INSTRUCT('xml')
         #tree.CDATA(r"<b>I am some text.</b>")
-        #tree.DECLARE('ELEMENT', Name.Value, 'A value" here.')
+        tree.DECLARE('DOCTYPE', __.author, __.SYSTEM,  'SomeDTD.dtd')
         with tree.author() as author: 
             author.name('Terry Pratchett')
             author.genre('Fantasy/Comedy')
@@ -84,5 +84,7 @@ class test_XmlRenderer(unittest.TestCase):
             with author.novels(count=2) as novels:
                 novels.novel('Small Gods', year=1992)
                 novels.novel('The Fifth Elephant', year=1999)
-                
-        print e.tostring(e.fromstring(tree()))
+
+        e.fromstring(tree())
+        
+        
