@@ -1,8 +1,11 @@
 from StringIO import StringIO
 
 from datatree.base import NodeBase
+from datatree.symbols import Symbol
 
-__all__ = ['Tree', 'Node', 'SubNode', 'S']
+__all__ = ['Tree', 'Node', 'SubNode', 'S', 'Name']
+
+Name = Symbol('Name')
 
 class NodeType(object):
     TREE = 1
@@ -10,6 +13,7 @@ class NodeType(object):
     COMMENT = 3
     DECLARE = 4
     INSTRUCT = 5
+    CDATA = 6
 
 class Node(NodeBase):
     def __init__(self, node_name='root', node_value=None,
@@ -23,7 +27,7 @@ class Node(NodeBase):
 
     def __get_methods__(self):
         this = set(['to_string', 'add_child', 'COMMENT', 'DECLARE',
-                    'INSTRUCT'])
+                    'INSTRUCT', 'CDATA'])
         other = super(Node, self).__get_methods__()
         return other.union(this)
 
@@ -72,14 +76,21 @@ class Node(NodeBase):
         self.__children__.append(child)
         return child
 
+    # TODO: Rather than functions alone, these should all be subtypes like Tree
+
     def COMMENT(self, text):
-        return self.add_child(node_name="!COMMENT!", node_value=text, node_type=NodeType.COMMENT)
+        return self.add_child(node_name='!COMMENT!', node_value=text, node_type=NodeType.COMMENT)
 
     def DECLARE(self, name, *attrs):
-        return self.add_child(node_name=name, node_type=NodeType.DECLARE, *attrs)
+        child = self.add_child(node_name=name, node_type=NodeType.DECLARE)
+        child.__declaration_params__ = attrs
+        return child
 
     def INSTRUCT(self, name, **attrs):
         return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, **attrs)
+
+    def CDATA(self, text):
+        return self.add_child(node_name='!CDATA!', node_value=text, node_type=NodeType.CDATA)
 
     ### Operator Overloads ###
 

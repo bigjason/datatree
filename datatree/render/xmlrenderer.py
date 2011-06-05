@@ -3,6 +3,7 @@ from StringIO import StringIO # cStringIO has no unicode support. Do we care?
 
 from datatree.render.base import InternalRenderer
 from datatree.node import NodeType
+from datatree.symbols import Symbol
 
 class XmlRenderer(InternalRenderer):
     """
@@ -18,6 +19,9 @@ class XmlRenderer(InternalRenderer):
         indent = options.get('indent') * level if options.get('pretty') else ''
         newline = '\n' if options.get('pretty') else ''
 
+        def safe_str(val):
+            return str(val) if val != None else ''
+
         def start_line_str():
             return "{}{}".format(newline, indent)
 
@@ -30,7 +34,7 @@ class XmlRenderer(InternalRenderer):
 
         def data_node():
             attrs = self.get_attrs_str(node.__attrs__)
-            if not node.__children__ and not node.__value__:
+            if not node.__children__ and node.__value__ == None:
                 doc.write('<{} {}{}/>'.format(node.__node_name__,
                                               attrs,
                                               ' ' if attrs else ''))
@@ -38,7 +42,7 @@ class XmlRenderer(InternalRenderer):
                 doc.write('<{}{}{}>'.format(node.__node_name__,
                                             ' ' if attrs else '',
                                             attrs))
-                if node.__value__:
+                if node.__value__ != None:
                     if len(node.__children__) > 0:
                         doc.write(newline)
                         doc.write(indent)
@@ -52,7 +56,7 @@ class XmlRenderer(InternalRenderer):
                 doc.write('</{}>'.format(node.__node_name__))
 
         def comment_node():
-            doc.write('<!-- {} -->'.format(str(node.__value__ or '').strip()))
+            doc.write('<!-- {} -->'.format(safe_str(node.__value__).strip()))
 
         def instruct_node():
             attrs = {}
@@ -67,7 +71,26 @@ class XmlRenderer(InternalRenderer):
                                           attrs_str))
 
         def declare_node():
-            pass
+            # Don't use standard attrib render.
+            attrs = []
+            for a in node.__declaration_params__:
+                if isinstance(a, Symbol):
+                    attrs.append(str(a))
+                else:
+                    attrs.append('"{}"'.format(str(a)))
+            if attrs:
+                attrs_str = ' ' + ' '.join(attrs)
+            else:
+                attrs_str = ''
+                
+            doc.write('<!{}{}>'.format(node.__node_name__, attrs_str))
+                
+
+        def cdata_node():
+            # Attrs are ignored for CDATA
+            doc.write('<![CDATA[{}]]>'.format(safe_str(node.__value__)))
+            
+        ## Actual flow of render starts here ##
 
         if doc is None:
             doc = StringIO()
@@ -86,6 +109,9 @@ class XmlRenderer(InternalRenderer):
         elif node.__node_type__ == NodeType.DECLARE:
             start_line()
             declare_node()
+        elif node.__node_type__ == NodeType.CDATA:
+            start_line()
+            cdata_node()
         else:
             start_line()
             data_node() # Unknown type, try the sanest thing

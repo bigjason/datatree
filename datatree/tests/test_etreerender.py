@@ -10,7 +10,7 @@ class test_ETreeRenderer(unittest.TestCase):
     def test_single_level(self):
         tree = Tree()
         root = tree.a('Here', href='url', title='A Title')
-        actual = root.render('xml')
+        actual = root.render('etree')
         result = e.fromstring(actual)
 
         self.assertEqual(result.tag, 'a')
@@ -25,7 +25,7 @@ class test_ETreeRenderer(unittest.TestCase):
             two.third('Three', level=3)
         root.fourth('four', level=2)
 
-        actual = root.render('xml')
+        actual = root.render('etree')
 
         # Parse the xml and break it into pieces to assert.
         result = e.fromstring(actual)

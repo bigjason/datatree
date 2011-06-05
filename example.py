@@ -1,8 +1,9 @@
-from datatree.node import Tree
+from datatree.node import Tree, Name
 
 if __name__ == '__main__':
     tree = Tree()
     tree.INSTRUCT('xml')
+    tree.DECLARE('ELEMENT', Name.Value, 'A value here.')
     with tree.author() as author: 
         author.name('Terry Pratchett')
         author.genre('Fantasy/Comedy')

@@ -41,3 +41,18 @@ class test_XmlRenderer(unittest.TestCase):
         self.assertEqual(actual.find('name').text, 'Terry Pratchett')
         self.assertEqual(actual.find('.//shorts').attrib['count'], '2')
 
+    def test_render_comment(self):
+        tree = Tree()
+        tree.root() // "Something Here"
+        self.assertIn('<!-- Something Here -->', tree('xml'))
+
+    def test_render_cdata_string(self):
+        tree = Tree()
+        tree.root().CDATA("Some Value")
+        self.assertIn('<![CDATA[Some Value]]>', tree('xml'))
+        
+    def test_render_cdata_not_string(self):
+        int_val = 1234567891011121314151617181920
+        tree = Tree()
+        tree.root().CDATA(int_val)
+        self.assertIn('<![CDATA[{}]]>'.format(str(int_val)), tree('xml'))
