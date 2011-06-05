@@ -3,9 +3,10 @@ from StringIO import StringIO
 from datatree.base import NodeBase
 from datatree.symbols import Symbol
 
-__all__ = ['Tree', 'Node', 'SubNode', 'S', 'Name']
+__all__ = ['Tree', 'Node', 'SubNode', 'S', 'Name', '__']
 
 Name = Symbol('Name')
+__ = Name
 
 class NodeType(object):
     TREE = 1
@@ -86,8 +87,6 @@ class Node(NodeBase):
         child.__declaration_params__ = attrs
         return child
 
-    def INSTRUCT(self, name, **attrs):
-        return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, **attrs)
 
     def CDATA(self, text):
         return self.add_child(node_name='!CDATA!', node_value=text, node_type=NodeType.CDATA)
@@ -110,6 +109,9 @@ class Tree(Node):
         kwargs['node_type'] = NodeType.TREE
         super(Tree, self).__init__(*args, **kwargs)
 
+    def INSTRUCT(self, name='xml', **attrs):
+        return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, **attrs)
+    
 class SubNode(object):
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs

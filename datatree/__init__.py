@@ -1,5 +1,5 @@
-from .node import Tree, S, SubNode, Name
+from .node import Tree, S, SubNode, Name, __
 
-__all__ = ['Tree', 'S', 'SubNode', 'Name']
+__all__ = ['Tree', 'S', 'SubNode', 'Name', '__']
 
 VERSION = (0, 1, 'beta', 4)

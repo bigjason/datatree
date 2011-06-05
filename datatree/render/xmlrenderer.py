@@ -16,11 +16,15 @@ class XmlRenderer(InternalRenderer):
 
     def render_node(self, node, doc=None, options=None, level=0):
         options = self.get_options(options)
+        if node.__node_type__ == NodeType.TREE: level = -1
         indent = options.get('indent') * level if options.get('pretty') else ''
         newline = '\n' if options.get('pretty') else ''
 
         def safe_str(val):
             return str(val) if val != None else ''
+
+        def safe_quote(val):
+            return val.replace('"', '&quot;')
 
         def start_line_str():
             return "{}{}".format(newline, indent)
@@ -77,22 +81,21 @@ class XmlRenderer(InternalRenderer):
                 if isinstance(a, Symbol):
                     attrs.append(str(a))
                 else:
-                    attrs.append('"{}"'.format(str(a)))
+                    attrs.append('"{}"'.format(safe_quote(safe_str(a))))
             if attrs:
                 attrs_str = ' ' + ' '.join(attrs)
             else:
                 attrs_str = ''
-                
+
             doc.write('<!{}{}>'.format(node.__node_name__, attrs_str))
-                
 
         def cdata_node():
             # Attrs are ignored for CDATA
             doc.write('<![CDATA[{}]]>'.format(safe_str(node.__value__)))
-            
+
         ## Actual flow of render starts here ##
 
-        if doc is None:
+        if doc == None:
             doc = StringIO()
 
         if node.__node_type__ == NodeType.TREE:

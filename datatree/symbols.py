@@ -9,3 +9,6 @@ class Symbol(object):
     
     def __str__(self):
         return self.name
+    
+    def __getitem__(self, name):
+        return self.__getattr__(name)

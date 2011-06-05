@@ -20,3 +20,11 @@ class test_Symbol(unittest.TestCase):
 
     def test_to_str_nested(self):
         self.assertEqual(str(tester.testme.testme), 'testme')
+        
+    def test_accessor_special_char(self):
+        self.assertEqual(str(tester['A Name']), 'A Name')
+        self.assertEqual(str(tester['A Name!']), 'A Name!')
+        
+    def test_accessor(self):
+        s = 'Different Name!!!!'
+        self.assertEqual(tester[s], tester[s])

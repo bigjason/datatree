@@ -13,7 +13,7 @@ class RandomOrderTestSuite(unittest.TestSuite):
         if seed:
             self.__seed = seed
         else:
-            self.__seed = randint(1, sys.maxint)
+            self.__seed = randint(0, sys.maxint)
         super(RandomOrderTestSuite, self).__init__(*args, **kwargs)
         
     def __get_all_tests(self, test_case):
