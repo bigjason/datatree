@@ -27,8 +27,7 @@ class Node(NodeBase):
         self.__methods__ = self.__get_methods__()
 
     def __get_methods__(self):
-        this = set(['to_string', 'add_child', 'COMMENT', 'DECLARE',
-                    'INSTRUCT', 'CDATA'])
+        this = set(['to_string', 'add_child', 'COMMENT', 'CDATA'])
         other = super(Node, self).__get_methods__()
         return other.union(this)
 
@@ -82,12 +81,6 @@ class Node(NodeBase):
     def COMMENT(self, text):
         return self.add_child(node_name='!COMMENT!', node_value=text, node_type=NodeType.COMMENT)
 
-    def DECLARE(self, name, *attrs):
-        child = self.add_child(node_name=name, node_type=NodeType.DECLARE)
-        child.__declaration_params__ = attrs
-        return child
-
-
     def CDATA(self, text):
         return self.add_child(node_name='!CDATA!', node_value=text, node_type=NodeType.CDATA)
 
@@ -108,10 +101,20 @@ class Tree(Node):
         kwargs['node_name'] = None
         kwargs['node_type'] = NodeType.TREE
         super(Tree, self).__init__(*args, **kwargs)
+        
+    def __get_methods__(self):
+        this = set(['DECLARE', 'INSTRUCT'])
+        other = super(Node, self).__get_methods__()
+        return other.union(this)
 
     def INSTRUCT(self, name='xml', **attrs):
         return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, **attrs)
-    
+
+    def DECLARE(self, name, *attrs):
+        child = self.add_child(node_name=name, node_type=NodeType.DECLARE)
+        child.__declaration_params__ = attrs
+        return child
+
 class SubNode(object):
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs

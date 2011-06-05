@@ -5,7 +5,7 @@ if __name__ == '__main__':
     tree.INSTRUCT('xml')
     tree.DECLARE('ELEMENT', __.Value, 'A value" here.')
     tree.CDATA(r"<b>I am some text.</b>")
-    with tree.author() as author: 
+    with tree.author() as author:
         author.name('Terry Pratchett')
         author.genre('Fantasy/Comedy')
         author // "Only 2 books listed"
