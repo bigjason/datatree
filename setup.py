@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 from datatree import VERSION
 
-with open(path.join(path.dirname(__file__), 'README.md')) as f:
+with open(path.join(path.dirname(__file__), 'README.rst')) as f:
     readme = f.read()
 
 setup(
