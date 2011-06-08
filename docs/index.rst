@@ -1,16 +1,16 @@
 DataTree
 ========
 
+.. include:: ../README.rst
+
 Contents:
+---------
 
 .. toctree::
    :maxdepth: 2
    
    overview
-
-.. automodule:: datatree
-	:members:
-
+   API
 
 Indices and tables
 ==================

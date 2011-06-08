@@ -1,10 +1,7 @@
-from datatree.node import Tree, __
+from datatree.node import Tree
 
 if __name__ == '__main__':
     tree = Tree()
-    tree.INSTRUCT('xml')
-    tree.DECLARE('ELEMENT', __.Value, 'A value" here.')
-    tree.CDATA(r"<b>I am some text.</b>")
     with tree.author() as author:
         author.name('Terry Pratchett')
         author.genre('Fantasy/Comedy')
@@ -14,13 +11,19 @@ if __name__ == '__main__':
             novels.novel('The Fifth Elephant', year=1999)
 
     print 'XML:'
-    print tree.render(pretty=True)
+    print tree(pretty=True)
     print
     print 'JSON:'
-    print tree.render('json')
+    print tree('json')
     print
     print 'YAML'
-    print tree.render('yaml')
+    print tree('yaml')
     print
     print 'Dict:'
-    print tree.render('dict', pretty_string=True)
+    print tree('dict', pretty_string=True)
+
+    tree = Tree()
+    with tree.root() as root:
+        root.name("Bob Smith", full=True)
+    print tree('xml', pretty=True)
+    

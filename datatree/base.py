@@ -17,7 +17,10 @@ class NodeBase(object):
         """Render the datatree from this node down using the provided renderer.
         
         :keyword renderer: The name of the renderer to use.  You may add more
-            renderers by using the register_renderer method.        
+            renderers by using the register_renderer method.
+        
+        :keyword options: Key value pairs of options that will be passed to
+            the renderer.         
         """
         global _plugins
         render_kls = None
@@ -35,6 +38,8 @@ class NodeBase(object):
         return render_kls().render(self, options=options)
 
     def __call__(self, renderer='xml', **options):
+        """Same as calling :function:`render <NodeBase.render>`.        
+        """
         return self.render(renderer, **options)
 
     @staticmethod

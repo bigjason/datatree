@@ -97,6 +97,10 @@ class Node(NodeBase):
         return self.COMMENT(text)
 
 class Tree(Node):
+    """Very top node in a datatree.
+    
+    The Tree is the top node used to build a datatree.
+    """
     def __init__(self, *args, **kwargs):
         kwargs['node_name'] = None
         kwargs['node_type'] = NodeType.TREE
