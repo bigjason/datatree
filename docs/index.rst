@@ -3,6 +3,7 @@ DataTree
 
 .. include:: ../README.rst
 
+---------
 Contents:
 ---------
 

@@ -1,9 +1,24 @@
 -------
 Summary
 -------
-DataTree is a DSL for creating structured documents in python inspired by 
-`ruby builder`_, supporting many structured output formats, but with an 
-emphasis on XML. 
+DataTree is a DSL for creating structured documents in python. Inspired by 
+`ruby builder`_ but with the goal of reducing the amount of line noise associated 
+with creating XML documents in python.  As an added bonus the tree can be output
+to to any structured format (with XML, JSON and YAML supported in the library).
+
+------------
+Installation
+------------
+You can install via `PyPi <http://pypi.python.org/pypi/datatree/>`_ or direct 
+from the github_ repo.
+
+To install with pip::
+
+    $ pip install datatree
+
+To install with easy_install::
+
+    $ easy_install datatree
 
 -------
 Example
@@ -61,4 +76,10 @@ License
 This work is licensed under the Creative Commons Attribution 3.0 Unported 
 License. You can view a copy of this license `here <http://creativecommons.org/licenses/by/3.0/>`_.
 
+Souce Code
+----------
+The source code can be found on github_.
+
+
 .. _ruby builder: http://builder.rubyforge.org/
+.. _github: https://github.com/bigjason/datatree

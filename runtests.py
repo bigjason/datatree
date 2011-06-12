@@ -1,7 +1,9 @@
+#! /usr/bin/env python
+
+import sys
 import unittest
 from os import path
 from random import Random, randint
-import sys
 
 class RandomOrderTestSuite(unittest.TestSuite):
     """
