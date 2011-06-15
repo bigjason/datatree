@@ -36,6 +36,7 @@ class RandomOrderTestSuite(unittest.TestSuite):
                 break
             test(result)
         print
+        print
         print '>>> python runtests.py --seed={}'.format(self.__seed)
         return result
 
@@ -54,5 +55,5 @@ if __name__ == "__main__":
     loader = unittest.loader.defaultTestLoader
     suite.addTest(loader.discover(base_folder, pattern="test*.py"))
     runner = unittest.TextTestRunner()
-    runner.verbosity = 2
+    runner.verbosity = 1
     runner.run(suite.run)

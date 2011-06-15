@@ -13,17 +13,14 @@ if __name__ == '__main__':
     print 'XML:'
     print tree(pretty=True)
     print
+    print
     print 'JSON:'
     print tree('json')
     print
-    print 'YAML'
+    print
+    print 'YAML:'
     print tree('yaml')
+    print
     print
     print 'Dict:'
     print tree('dict', pretty_string=True)
-
-    tree = Tree()
-    with tree.root() as root:
-        root.name("Bob Smith", full=True)
-    print tree('xml', pretty=True)
-    

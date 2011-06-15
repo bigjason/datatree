@@ -2,4 +2,4 @@ from .node import Tree, S, SubNode, Name, __
 
 __all__ = ['Tree', 'S', 'SubNode', 'Name', '__']
 
-VERSION = (0, 1, 'RC', 3)
+VERSION = (0, 1, 0)

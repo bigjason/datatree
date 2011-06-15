@@ -2,7 +2,7 @@ from xml.sax.saxutils import escape, quoteattr
 from StringIO import StringIO # cStringIO has no unicode support. Do we care?
 
 from datatree.render.base import InternalRenderer
-from datatree.node import Tree, CDataNode, CommentNode, DeclarationNode, InstructionNode, Node
+from datatree.node import Tree, CDataNode, CommentNode, DeclarationNode, InstructionNode
 from datatree.symbols import Symbol
 
 class XmlRenderer(InternalRenderer):
