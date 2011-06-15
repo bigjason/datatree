@@ -23,7 +23,6 @@ class BaseNode(object):
         self.__value__ = node_value
         self.__attrs__ = attrs
 
-    
     @staticmethod
     def register_renderer(klass):
         """Register a renderer class with the datatree rendering system.
@@ -35,7 +34,7 @@ class BaseNode(object):
             klass = get_class(klass)
         global _plugins
         _plugins.append([tuple(klass.friendly_names), klass])
-        
+
     def __get_methods__(self):
         return set(['to_string', 'render', 'register_renderer'])
 
@@ -92,7 +91,7 @@ class Vertice(BaseNode):
         self.__methods__ = self.__get_methods__()
 
     def __get_methods__(self):
-        this = set(['add_child', 'COMMENT', 'CDATA'])
+        this = set(['add_child', 'add_child_node', 'COMMENT', 'CDATA'])
         other = super(Vertice, self).__get_methods__()
         return other.union(this)
 
@@ -119,6 +118,12 @@ class Vertice(BaseNode):
     def __exit__(self, exc_type, exc_value, traceback):
         return False
 
+    def COMMENT(self, text):
+        return self.add_child(child_class=CommentNode, node_name='!COMMENT!', node_value=text)
+
+    def CDATA(self, text):
+        return self.add_child(child_class=CDataNode, node_name='!CDATA!', node_value=text)
+    
     ### Child Manipulation Methods ###
 
     def add_child(self, child_class=None, *args, **kwargs):
@@ -127,20 +132,19 @@ class Vertice(BaseNode):
         child = child_class(*args, **kwargs)
         self.__children__.append(child)
         return child
-
-    def COMMENT(self, text):
-        return self.add_child(child_class=CommentNode, node_name='!COMMENT!', node_value=text)
-
-    def CDATA(self, text):
-        return self.add_child(child_class=CDataNode, node_name='!CDATA!', node_value=text)
+    
+    def add_child_node(self, child_node):
+        """For use when adding an existing Node."""
+        self.__children__.append(child_node)
+        return child_node
 
     ### Operator Overloads ###
 
     def __lshift__(self, other):
-        if isinstance(other, SubNode):
+        if isinstance(other, SubNode) or isinstance(other, BaseNode):
             other = [other]
         for item in other:
-            self.add_child(*item.args, **item.kwargs)
+            self.add_child_node(item)
         return self
 
     def __floordiv__(self, text):
@@ -149,9 +153,6 @@ class Vertice(BaseNode):
 class Leaf(BaseNode):
     """Node that can have no children.
     """
-    pass
-
-class Node(Vertice):
     pass
 
 class Tree(Vertice):
@@ -176,6 +177,10 @@ class Tree(Vertice):
         child.__declaration_params__ = attrs
         return child
 
+class Node(Vertice):
+    def __init__(self, node_name='root', node_value=None, **attrs):
+        super(Node, self).__init__(node_name=node_name, node_value=node_value, **attrs)
+
 class InstructionNode(Leaf):
     pass
 
@@ -183,12 +188,22 @@ class DeclarationNode(Leaf):
     pass
 
 class CommentNode(Leaf):
-    pass
+    """
+    >>> cmt = CommentNode(node_value='A comment of some type.')
+    >>> str(cmt)
+    '# A comment of some type.'    
+    """
+    def __str__(self):
+        return "# {}".format(self.__value__)
 
 class CDataNode(Leaf):
     pass
 
+"""
 class SubNode(object):
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
+"""
+# TODO: Revisit. Replace SubNode with Node?
+SubNode = Node
 S = SubNode

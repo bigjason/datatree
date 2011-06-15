@@ -1,6 +1,6 @@
 import unittest
 
-from datatree.node import Node, S
+from datatree.node import Node, S, Tree
 
 class test_Node(unittest.TestCase):
 
@@ -35,12 +35,19 @@ class test_Node(unittest.TestCase):
 
     def test_add_child(self):
         root = Node()
-        root.add_child('level1', 'two', some='attr')
+        root.add_child(Node, 'level1', 'two', some='attr')
 
         child = root.__children__[0]
         self.assertEqual(child.__node_name__, 'level1')
         self.assertEqual(child.__value__, 'two')
         self.assertDictEqual(child.__attrs__, {'some': 'attr'})
+        
+    def test_add_child_node(self):
+        tree = Tree()
+        node = Node("A Value")
+        tree.add_child_node(node)
+        
+        self.assertEqual(tree.__children__[0], node)
 
     def test_add_duplicate_nodes(self):
         root = Node()
