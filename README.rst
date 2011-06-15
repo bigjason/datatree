@@ -6,7 +6,7 @@ DataTree is a DSL for creating structured documents in python. Inspired by
 with creating XML documents in python.  As an added bonus the tree can be output
 to to any structured format (with XML, JSON and YAML supported in the library).
 
-_Mode documentation is coming soon._
+*More documentation is coming soon.*
 
 ------------
 Installation
