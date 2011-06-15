@@ -2,7 +2,7 @@ from xml.sax.saxutils import escape, quoteattr
 from StringIO import StringIO # cStringIO has no unicode support. Do we care?
 
 from datatree.render.base import InternalRenderer
-from datatree.node import NodeType
+from datatree.node import Tree, CDataNode, CommentNode, DeclarationNode, InstructionNode, Node
 from datatree.symbols import Symbol
 
 class XmlRenderer(InternalRenderer):
@@ -16,7 +16,7 @@ class XmlRenderer(InternalRenderer):
 
     def render_node(self, node, doc=None, options=None, level=0):
         options = self.get_options(options)
-        if node.__node_type__ == NodeType.TREE: level = -1
+        if isinstance(node, Tree): level = -1
         indent = options.get('indent') * level if options.get('pretty') else ''
         newline = '\n' if options.get('pretty') else ''
 
@@ -98,26 +98,23 @@ class XmlRenderer(InternalRenderer):
         if doc == None:
             doc = StringIO()
 
-        if node.__node_type__ == NodeType.TREE:
+        if isinstance(node, Tree):
             render_children()
-        elif node.__node_type__ == NodeType.DATA:
-            start_line()
-            data_node()
-        elif node.__node_type__ == NodeType.COMMENT:
+        elif isinstance(node, CommentNode):
             start_line()
             comment_node()
-        elif node.__node_type__ == NodeType.INSTRUCT:
+        elif isinstance(node, InstructionNode):
             start_line()
             instruct_node()
-        elif node.__node_type__ == NodeType.DECLARE:
+        elif isinstance(node, DeclarationNode):
             start_line()
             declare_node()
-        elif node.__node_type__ == NodeType.CDATA:
+        elif isinstance(node, CDataNode):
             start_line()
             cdata_node()
         else:
             start_line()
-            data_node() # Unknown type, try the sanest thing
+            data_node()
 
         return doc.getvalue()
 

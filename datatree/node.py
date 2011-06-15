@@ -16,50 +16,28 @@ _plugins = [
     [('yaml', 'yml'), 'datatree.render.yamlrender.YamlRenderer']
 ]
 
-class NodeType(object):
-    TREE = 1
-    DATA = 2
-    COMMENT = 3
-    DECLARE = 4
-    INSTRUCT = 5
-    CDATA = 6
-
-class Node(object):
-    def __init__(self, node_name='root', node_value=None,
-            node_type=NodeType.DATA, **attrs):
+class BaseNode(object):
+    def __init__(self, node_name='root', node_value=None, **attrs):
         self.__children__ = []
         self.__node_name__ = node_name
         self.__value__ = node_value
-        self.__node_type__ = node_type
         self.__attrs__ = attrs
-        self.__methods__ = self.__get_methods__()
 
+    
+    @staticmethod
+    def register_renderer(klass):
+        """Register a renderer class with the datatree rendering system.
+        
+        :keyword klass: Either a string with the fully qualified name of the 
+          renderer class to load, or the actual class itself. 
+        """
+        if isinstance(klass, str):
+            klass = get_class(klass)
+        global _plugins
+        _plugins.append([tuple(klass.friendly_names), klass])
+        
     def __get_methods__(self):
-        return set(['to_string', 'add_child', 'COMMENT', 'CDATA', 'render', 
-                    'register_renderer'])
-
-    def __getattribute__(self, name):
-        try:
-            if (name.startswith('__') and name.endswith('__')) or \
-                name in self.__methods__:
-                val = super(Node, self).__getattribute__(name)
-                return val
-            else:
-                raise ValueError()
-        except:
-            def add_child(self, node_value=None, node_name=None, **attrs):
-                child_node = Node(node_name=node_name or name,
-                                  node_value=node_value, **attrs)
-                self.__children__.append(child_node)
-                return child_node
-
-            return add_child.__get__(self)
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return False
+        return set(['to_string', 'render', 'register_renderer'])
 
     def __str__(self):
         return '{}/{}'.format(self.__node_name__, self.__value__)
@@ -75,7 +53,7 @@ class Node(object):
             result.write(child.to_string(new_level))
 
         return result.getvalue()
-    
+
     def render(self, renderer='xml', **options):
         """Render the datatree from this node down using the provided renderer.
         
@@ -105,33 +83,56 @@ class Node(object):
         """
         return self.render(renderer, **options)
 
-    @staticmethod
-    def register_renderer(klass):
-        """Register a renderer class with the datatree rendering system.
-        
-        :keyword klass: Either a string with the fully qualified name of the 
-          renderer class to load, or the actual class itself. 
-        """
-        if isinstance(klass, str):
-            klass = get_class(klass)
-        global _plugins
-        _plugins.append([tuple(klass.friendly_names), klass])
 
+class Vertice(BaseNode):
+    """Node that can have children.
+    """
+    def __init__(self, **kwargs):
+        super(Vertice, self).__init__(**kwargs)
+        self.__methods__ = self.__get_methods__()
+
+    def __get_methods__(self):
+        this = set(['add_child', 'COMMENT', 'CDATA'])
+        other = super(Vertice, self).__get_methods__()
+        return other.union(this)
+
+    def __getattribute__(self, name):
+        try:
+            if (name.startswith('__') and name.endswith('__')) or \
+                name in self.__methods__:
+                val = super(Vertice, self).__getattribute__(name)
+                return val
+            else:
+                raise ValueError()
+        except:
+            def add_node_child(self, node_value=None, node_name=None, **attrs):
+                child_node = Node(node_name=node_name or name,
+                                  node_value=node_value, **attrs)
+                self.__children__.append(child_node)
+                return child_node
+
+            return add_node_child.__get__(self)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        return False
 
     ### Child Manipulation Methods ###
 
-    def add_child(self, *args, **kwargs):
-        child = Node(*args, **kwargs)
+    def add_child(self, child_class=None, *args, **kwargs):
+        if child_class == None:
+            child_class = Node
+        child = child_class(*args, **kwargs)
         self.__children__.append(child)
         return child
 
-    # TODO: Rather than functions alone, these should all be subtypes like Tree
-
     def COMMENT(self, text):
-        return self.add_child(node_name='!COMMENT!', node_value=text, node_type=NodeType.COMMENT)
+        return self.add_child(child_class=CommentNode, node_name='!COMMENT!', node_value=text)
 
     def CDATA(self, text):
-        return self.add_child(node_name='!CDATA!', node_value=text, node_type=NodeType.CDATA)
+        return self.add_child(child_class=CDataNode, node_name='!CDATA!', node_value=text)
 
     ### Operator Overloads ###
 
@@ -145,28 +146,47 @@ class Node(object):
     def __floordiv__(self, text):
         return self.COMMENT(text)
 
-class Tree(Node):
+class Leaf(BaseNode):
+    """Node that can have no children.
+    """
+    pass
+
+class Node(Vertice):
+    pass
+
+class Tree(Vertice):
     """Very top node in a datatree.
     
     The Tree is the top node used to build a datatree.
     """
     def __init__(self, *args, **kwargs):
         kwargs['node_name'] = None
-        kwargs['node_type'] = NodeType.TREE
         super(Tree, self).__init__(*args, **kwargs)
-        
+
     def __get_methods__(self):
         this = set(['DECLARE', 'INSTRUCT'])
         other = super(Tree, self).__get_methods__()
         return other.union(this)
 
     def INSTRUCT(self, name='xml', **attrs):
-        return self.add_child(node_name=name, node_type=NodeType.INSTRUCT, **attrs)
+        return self.add_child(child_class=InstructionNode, node_name=name, **attrs)
 
     def DECLARE(self, name, *attrs):
-        child = self.add_child(node_name=name, node_type=NodeType.DECLARE)
+        child = self.add_child(child_class=DeclarationNode, node_name=name)
         child.__declaration_params__ = attrs
         return child
+
+class InstructionNode(Leaf):
+    pass
+
+class DeclarationNode(Leaf):
+    pass
+
+class CommentNode(Leaf):
+    pass
+
+class CDataNode(Leaf):
+    pass
 
 class SubNode(object):
     def __init__(self, *args, **kwargs):
