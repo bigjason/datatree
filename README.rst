@@ -37,6 +37,7 @@ A small example::
         with author.novels(count=2) as novels:
             novels.novel('Small Gods', year=1992)
             novels.novel('The Fifth Elephant', year=1999)
+            novels << Node("novel", "Guards! Guards!", year=1989)
 
     print tree(pretty=True) 
 
@@ -49,6 +50,7 @@ Which produces the XML::
         <novels count="2">
             <novel year="1992">Small Gods</novel>
             <novel year="1999">The Fifth Elephant</novel>
+            <novel year="1989">Guards! Guards!</novel>
         </novels>
     </author>
 
@@ -56,11 +58,12 @@ Or the JSON::
 
     {
         "author": {
-            "name": "Terry Pratchett", 
             "genre": "Fantasy/Comedy", 
+            "name": "Terry Pratchett", 
             "novels": [
                 "Small Gods", 
-                "The Fifth Elephant"
+                "The Fifth Elephant", 
+                "Guards! Guards!"
             ]
         }
     }
@@ -70,7 +73,7 @@ Or the YAML::
     author:
       genre: Fantasy/Comedy
       name: Terry Pratchett
-      novels: [Small Gods, The Fifth Elephant]
+      novels: [Small Gods, The Fifth Elephant, Guards! Guards!]
 
 
 License

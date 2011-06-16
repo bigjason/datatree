@@ -1,4 +1,4 @@
-from datatree.node import Tree
+from datatree.node import Tree, Node
 
 if __name__ == '__main__':
     tree = Tree()
@@ -9,6 +9,7 @@ if __name__ == '__main__':
         with author.novels(count=2) as novels:
             novels.novel('Small Gods', year=1992)
             novels.novel('The Fifth Elephant', year=1999)
+            novels << Node("novel", "Guards! Guards!", year=1989)
 
     print 'XML:'
     print tree(pretty=True)
