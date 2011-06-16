@@ -7,7 +7,7 @@ with creating XML documents in python.  As an added bonus the tree can be output
 to to any structured format (with XML, JSON and YAML supported in the library).
 
 *More documentation is coming soon but for now a very basic rough draft can be
-found at `read the docs <http://readthedocs.org/docs/datatree/en/latest/>`_.*
+found at `readthedocs.org <http://readthedocs.org/docs/datatree/en/latest/>`_.*
 
 ------------
 Installation
