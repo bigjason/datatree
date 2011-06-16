@@ -1,4 +1,3 @@
-from xml.dom import minidom
 try:
     import xml.etree.cElementTree as e
 except ImportError:
@@ -29,11 +28,3 @@ class ETreeRenderer(InternalRenderer):
 
     def render_final(self, rendered, pretty=True, options={}):
         return e.tostring(rendered)
-
-    @staticmethod
-    def to_pretty_xml(xml_str, indent='  ', encoding=None):
-        """Slow and messy.  Don't use in production."""
-        result = minidom.parseString(xml_str).toprettyxml(indent=indent, encoding=encoding)
-        if encoding:
-            result = unicode(result, encoding)
-        return result

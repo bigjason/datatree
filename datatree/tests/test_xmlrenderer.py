@@ -74,8 +74,8 @@ class test_XmlRenderer(unittest.TestCase):
         tree = Tree()
         tree.INSTRUCT('process', do="Good")
         self.assertIn(tree(), '<?process do="Good"?>')
-        
-    def test_parse_complex_doc(self):
+
+    def _get_complex_structure(self):        
         tree = Tree()
         tree.INSTRUCT('xml')
         #tree.CDATA(r"<b>I am some text.</b>")
@@ -87,9 +87,17 @@ class test_XmlRenderer(unittest.TestCase):
             with author.novels(count=2) as novels:
                 novels.novel('Small Gods', year=1992)
                 novels.novel('The Fifth Elephant', year=1999)
+        return tree
 
+    def test_parse_complex_doc(self):
+        tree = self._get_complex_structure()
         etree = e.fromstring(tree())
         self.assertEqual(etree.find('.//genre').text, 'Fantasy/Comedy')
         self.assertEqual(len(etree.findall('.//novel')), 2)
         
+    def test_parse_complex_doc_pretty(self):
+        tree = self._get_complex_structure()
+        etree = e.fromstring(tree(pretty=True))
+        self.assertEqual(etree.find('.//genre').text, 'Fantasy/Comedy')
+        self.assertEqual(len(etree.findall('.//novel')), 2)
         

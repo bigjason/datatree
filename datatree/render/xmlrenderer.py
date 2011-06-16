@@ -17,7 +17,7 @@ class XmlRenderer(InternalRenderer):
     def render_node(self, node, doc=None, options=None, level=0):
         options = self.get_options(options)
         if isinstance(node, Tree): level = -1
-        indent = options.get('indent') * level if options.get('pretty') else ''
+        indent = options['indent'] * level if options['pretty'] else ''
         newline = '\n' if options.get('pretty') else ''
 
         def safe_str(val):
@@ -30,7 +30,8 @@ class XmlRenderer(InternalRenderer):
             return "{0}{1}".format(newline, indent)
 
         def start_line():
-            doc.write(start_line_str())
+            if options['pretty'] and doc.len > 0:
+                doc.write(start_line_str())
 
         def render_children():
             for child in node.__children__:
