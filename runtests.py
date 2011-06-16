@@ -1,7 +1,10 @@
 #! /usr/bin/env python
 
 import sys
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 from os import path
 from random import Random, randint
 
@@ -15,7 +18,7 @@ class RandomOrderTestSuite(unittest.TestSuite):
         if seed:
             self.__seed = seed
         else:
-            self.__seed = randint(0, sys.maxint)
+            self.__seed = randint(0, 9999)
         super(RandomOrderTestSuite, self).__init__(*args, **kwargs)
         
     def __get_all_tests(self, test_case):
@@ -37,7 +40,7 @@ class RandomOrderTestSuite(unittest.TestSuite):
             test(result)
         print
         print
-        print '>>> python runtests.py --seed={}'.format(self.__seed)
+        print '>>> python runtests.py --seed={0}'.format(self.__seed)
         return result
 
 if __name__ == "__main__":
@@ -55,5 +58,5 @@ if __name__ == "__main__":
     loader = unittest.loader.defaultTestLoader
     suite.addTest(loader.discover(base_folder, pattern="test*.py"))
     runner = unittest.TextTestRunner()
-    runner.verbosity = 1
+    runner.verbosity = 2
     runner.run(suite.run)

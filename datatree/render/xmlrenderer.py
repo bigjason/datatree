@@ -27,7 +27,7 @@ class XmlRenderer(InternalRenderer):
             return val.replace('"', '&quot;')
 
         def start_line_str():
-            return "{}{}".format(newline, indent)
+            return "{0}{1}".format(newline, indent)
 
         def start_line():
             doc.write(start_line_str())
@@ -39,11 +39,11 @@ class XmlRenderer(InternalRenderer):
         def data_node():
             attrs = self.get_attrs_str(node.__attrs__)
             if not node.__children__ and node.__value__ == None:
-                doc.write('<{} {}{}/>'.format(node.__node_name__,
+                doc.write('<{0} {1}{2}/>'.format(node.__node_name__,
                                               attrs,
                                               ' ' if attrs else ''))
             else:
-                doc.write('<{}{}{}>'.format(node.__node_name__,
+                doc.write('<{0}{1}{2}>'.format(node.__node_name__,
                                             ' ' if attrs else '',
                                             attrs))
                 if node.__value__ != None:
@@ -57,10 +57,10 @@ class XmlRenderer(InternalRenderer):
                 if len(node.__children__) > 0:
                     doc.write(newline)
                     doc.write(indent)
-                doc.write('</{}>'.format(node.__node_name__))
+                doc.write('</{0}>'.format(node.__node_name__))
 
         def comment_node():
-            doc.write('<!-- {} -->'.format(safe_str(node.__value__).strip()))
+            doc.write('<!-- {0} -->'.format(safe_str(node.__value__).strip()))
 
         def instruct_node():
             attrs = {}
@@ -70,7 +70,7 @@ class XmlRenderer(InternalRenderer):
             attrs.update(node.__attrs__)
             attrs_str = self.get_attrs_str(attrs)
 
-            doc.write('<?{}{}{}?>'.format(node.__node_name__,
+            doc.write('<?{0}{1}{2}?>'.format(node.__node_name__,
                                           ' ' if attrs_str else '',
                                           attrs_str))
 
@@ -81,17 +81,17 @@ class XmlRenderer(InternalRenderer):
                 if isinstance(a, Symbol):
                     attrs.append(str(a))
                 else:
-                    attrs.append('"{}"'.format(safe_quote(safe_str(a))))
+                    attrs.append('"{0}"'.format(safe_quote(safe_str(a))))
             if attrs:
                 attrs_str = ' ' + ' '.join(attrs)
             else:
                 attrs_str = ''
 
-            doc.write('<!{}{}>'.format(node.__node_name__, attrs_str))
+            doc.write('<!{0}{1}>'.format(node.__node_name__, attrs_str))
 
         def cdata_node():
             # Attrs are ignored for CDATA
-            doc.write('<![CDATA[{}]]>'.format(safe_str(node.__value__)))
+            doc.write('<![CDATA[{0}]]>'.format(safe_str(node.__value__)))
 
         ## Actual flow of render starts here ##
 
@@ -123,6 +123,6 @@ class XmlRenderer(InternalRenderer):
 
     @staticmethod
     def get_attrs_str(attrs):
-        attrs = ('{}={}'.format(key, quoteattr(str(value)))
+        attrs = ('{0}={1}'.format(key, quoteattr(str(value)))
                     for key, value in attrs.iteritems())
         return ' '.join(attrs).strip()

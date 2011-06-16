@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 try:
     import xml.etree.cElementTree as e
 except ImportError:
@@ -55,7 +58,7 @@ class test_XmlRenderer(unittest.TestCase):
         int_val = 1234567891011121314151617181920
         tree = Tree()
         tree.root().CDATA(int_val)
-        self.assertIn('<![CDATA[{}]]>'.format(str(int_val)), tree('xml'))
+        self.assertIn('<![CDATA[{0}]]>'.format(str(int_val)), tree('xml'))
         
     def test_render_declatation(self):
         tree = Tree()

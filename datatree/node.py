@@ -39,7 +39,7 @@ class BaseNode(object):
         return set(['to_string', 'render', 'register_renderer'])
 
     def __str__(self):
-        return '{}/{}'.format(self.__node_name__, self.__value__)
+        return '{0}/{1}'.format(self.__node_name__, self.__value__)
 
     def to_string(self, level=0):
         result = StringIO()
@@ -195,7 +195,7 @@ class CommentNode(Leaf):
     '# A comment of some type.'    
     """
     def __str__(self):
-        return "# {}".format(self.__value__)
+        return "# {0}".format(self.__value__)
 
 class CDataNode(Leaf):
     pass

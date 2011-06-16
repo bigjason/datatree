@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 try:
     import xml.etree.cElementTree as e
 except ImportError:

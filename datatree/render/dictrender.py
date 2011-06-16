@@ -10,7 +10,7 @@ class DictTreeRenderer(InternalRenderer):
     }
 
     def _children_distinct_names(self, children):
-        return { c.__node_name__ for c in children }
+        return set([c.__node_name__ for c in children])
 
     # TODO: Figure out how to handle attributes here.
     def render_node(self, node, parent=None, options=None):

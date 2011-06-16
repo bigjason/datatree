@@ -8,7 +8,9 @@ from datatree.render.base import InternalRenderer
 
 class ETreeRenderer(InternalRenderer):
     def render_node(self, node, parent=None, options={}):
-        attrs = { key: str(value) for key, value in node.__attrs__.iteritems() }
+        attrs = {}
+        for key, value in node.__attrs__.iteritems():
+            attrs[key] = str(value)
         if parent is not None:
             root = e.SubElement(parent, node.__node_name__, attrs)
         else:
