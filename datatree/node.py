@@ -3,7 +3,7 @@ from StringIO import StringIO
 from .symbols import Symbol
 from .utils import get_class
 
-__all__ = ['Tree', 'Node', 'SubNode', 'S', 'Name', '__']
+__all__ = ['Tree', 'Node', 'n', 'Name', '__']
 
 Name = Symbol('Name')
 __ = Name
@@ -141,7 +141,7 @@ class Vertice(BaseNode):
     ### Operator Overloads ###
 
     def __lshift__(self, other):
-        if isinstance(other, SubNode) or isinstance(other, BaseNode):
+        if isinstance(other, BaseNode):
             other = [other]
         for item in other:
             self.add_child_node(item)
@@ -180,6 +180,7 @@ class Tree(Vertice):
 class Node(Vertice):
     def __init__(self, node_name='root', node_value=None, **attrs):
         super(Node, self).__init__(node_name=node_name, node_value=node_value, **attrs)
+n = Node
 
 class InstructionNode(Leaf):
     pass
@@ -199,11 +200,3 @@ class CommentNode(Leaf):
 class CDataNode(Leaf):
     pass
 
-"""
-class SubNode(object):
-    def __init__(self, *args, **kwargs):
-        self.args, self.kwargs = args, kwargs
-"""
-# TODO: Revisit. Replace SubNode with Node?
-SubNode = Node
-S = SubNode

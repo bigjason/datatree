@@ -85,6 +85,8 @@ class test_XmlRenderer(unittest.TestCase):
                 novels.novel('Small Gods', year=1992)
                 novels.novel('The Fifth Elephant', year=1999)
 
-        e.fromstring(tree())
+        etree = e.fromstring(tree())
+        self.assertEqual(etree.find('.//genre').text, 'Fantasy/Comedy')
+        self.assertEqual(len(etree.findall('.//novel')), 2)
         
         

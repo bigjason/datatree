@@ -1,6 +1,6 @@
 import unittest
 
-from datatree.node import Node, S, Tree
+from datatree.node import Node, n, Tree
 
 class test_Node(unittest.TestCase):
 
@@ -64,7 +64,7 @@ class test_Node(unittest.TestCase):
 
     def test_lshift_operator_single(self):
         root = Node('test_lshift_operator_single')
-        root << S('level1', 'two', some='attr')
+        root << n('level1', 'two', some='attr')
 
         self.assertEqual(root.__node_name__, 'test_lshift_operator_single')
         child = root.__children__[0]
@@ -74,7 +74,7 @@ class test_Node(unittest.TestCase):
 
     def test_lshift_operator_multi(self):
         root = Node('test_lshift_operator_multi')
-        root << [S('level1', 'two', some='attr'), S('level1', 'two', some='attr')]
+        root << [n('level1', 'two', some='attr'), n('level1', 'two', some='attr')]
 
         self.assertEqual(root.__node_name__, 'test_lshift_operator_multi')
         for child in root.__children__:
@@ -84,7 +84,7 @@ class test_Node(unittest.TestCase):
 
     def test_lshift_operator_chained(self):
         root = Node()
-        root << S('level1', 'two', some='attr') << S('level1', 'two', some='attr')
+        root << n('level1', 'two', some='attr') << n('level1', 'two', some='attr')
 
         for child in root.__children__:
             self.assertEqual(child.__node_name__, 'level1')

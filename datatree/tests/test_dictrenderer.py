@@ -1,6 +1,6 @@
 import unittest
 
-from datatree import Tree, S
+from datatree import Tree, n
 from datatree.render.dictrender import DictTreeRenderer, NodeLossError
 
 class test_DictRenderer(unittest.TestCase):
@@ -50,7 +50,7 @@ class test_DictRenderer(unittest.TestCase):
         render = DictTreeRenderer()
         tree = Tree()
         with tree.root() as root:
-            root << [S('Node', i) for i in range(1000)]
+            root << [n('Node', i) for i in range(1000)]
             
         expected = set(["Node"])
         self.assertSetEqual(render._children_distinct_names(root.__children__), expected)
