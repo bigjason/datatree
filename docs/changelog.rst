@@ -5,6 +5,16 @@ Change Log
 .. contents::
     :local:
 
+.. v0.1.7:
+
+0.1.7
+=====
+:Release Date: 06-16-2011
+
+* Any node in a data tree can now be used to render the entire tree.
+
+* More documentation.
+
 .. _v0.1.6:
 
 0.1.6
