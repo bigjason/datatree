@@ -15,6 +15,8 @@ Change Log
 
 * More documentation.
 
+* Bug fixes.
+
 .. _v0.1.6:
 
 0.1.6

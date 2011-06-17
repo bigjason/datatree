@@ -54,7 +54,7 @@ class BaseNode(object):
 
         return result.getvalue()
 
-    def render(self, renderer='xml', **options):
+    def render(self, renderer='xml', as_root=False, **options):
         """Render the datatree using the provided renderer.
         
         :keyword renderer: The name of the renderer to use.  You may add more
@@ -63,7 +63,7 @@ class BaseNode(object):
         :keyword options: Key value pairs of options that will be passed to
             the renderer.         
         """
-        if self.__parent__:
+        if not as_root and self.__parent__:
             return self.__parent__.render(renderer, **options)
 
         global _plugins
