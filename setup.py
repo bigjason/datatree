@@ -10,7 +10,7 @@ setup(
     name='datatree',
     version='.'.join(map(str, VERSION)),
     license='Creative Commons Attribution 3.0 Unported License',
-    description='DataTree is a DSL for creating structured documents in python.',
+    description='DSL for creating structured documents in python.',
     long_description=readme,
     url='https://github.com/bigjason/datatree',
     author='Jason Webb',
