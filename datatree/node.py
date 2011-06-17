@@ -17,10 +17,11 @@ _plugins = [
 ]
 
 class BaseNode(object):
-    def __init__(self, node_name='root', node_value=None, **attrs):
+    def __init__(self, node_name='root', node_value=None, node_parent=None, **attrs):
         self.__children__ = []
         self.__node_name__ = node_name
         self.__value__ = node_value
+        self.__parent__ = node_parent
         self.__attrs__ = attrs
 
     @staticmethod
@@ -54,7 +55,7 @@ class BaseNode(object):
         return result.getvalue()
 
     def render(self, renderer='xml', **options):
-        """Render the datatree from this node down using the provided renderer.
+        """Render the datatree using the provided renderer.
         
         :keyword renderer: The name of the renderer to use.  You may add more
             renderers by using the register_renderer method.
@@ -62,6 +63,9 @@ class BaseNode(object):
         :keyword options: Key value pairs of options that will be passed to
             the renderer.         
         """
+        if self.__parent__:
+            return self.__parent__.render(renderer, **options)
+
         global _plugins
         render_kls = None
         for plugin in _plugins:
@@ -106,7 +110,7 @@ class Vertice(BaseNode):
         except:
             def add_node_child(self, node_value=None, node_name=None, **attrs):
                 child_node = Node(node_name=node_name or name,
-                                  node_value=node_value, **attrs)
+                                  node_value=node_value, node_parent=self, **attrs)
                 self.__children__.append(child_node)
                 return child_node
 
@@ -123,16 +127,17 @@ class Vertice(BaseNode):
 
     def CDATA(self, text):
         return self.add_child(child_class=CDataNode, node_name='!CDATA!', node_value=text)
-    
+
     ### Child Manipulation Methods ###
 
     def add_child(self, child_class=None, *args, **kwargs):
         if child_class == None:
             child_class = Node
+        kwargs['node_parent'] = self
         child = child_class(*args, **kwargs)
         self.__children__.append(child)
         return child
-    
+
     def add_child_node(self, child_node):
         """For use when adding an existing Node."""
         self.__children__.append(child_node)

@@ -12,6 +12,7 @@ Contents:
    
    overview
    API
+   changelog
 
 Indices and tables
 ==================
