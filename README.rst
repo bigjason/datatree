@@ -86,6 +86,12 @@ Souce Code
 ----------
 The source code can be found on github_.
 
+Feedback
+--------
+I welcome any and all constructive feedback.  Feel free to contact me (Jason Webb) at 
+`www.bigjason.com <http://www.bigjason.com/>`_ or on twitter 
+`@bigjasonwebb <http://www.twitter.com/BigJasonWebb>`_.
+
 
 .. _ruby builder: http://builder.rubyforge.org/
 .. _github: https://github.com/bigjason/datatree

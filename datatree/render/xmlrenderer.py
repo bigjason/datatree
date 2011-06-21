@@ -4,13 +4,13 @@ Outputs the tree as an xml string.  It is available under the alias ``'xml'``.
 Options
 -------
 
-====== =================================================
-Name   Description
-====== =================================================
-pretty Outputs the xml document with pretty formatting.
-indent Works with pretty formatting.  It is the string 
-       that will be used to indent each leval
-====== =================================================
+======= ==============================================================
+Name    Description
+======= ==============================================================
+pretty  When True, Outputs the xml document with pretty formatting.
+indent  Used with pretty formatting.  It is the string that will
+        be used to indent each level. Default is ``'    '``.
+======= ==============================================================
 
 Example Output
 --------------
@@ -38,7 +38,7 @@ Or even shorter:
     </author>
 """
 from xml.sax.saxutils import escape, quoteattr
-from StringIO import StringIO # cStringIO has no unicode support. Do we care?
+from StringIO import StringIO # TODO: cStringIO has no unicode support. Do we care?
 
 from datatree.render.base import InternalRenderer
 from datatree.symbols import Symbol
