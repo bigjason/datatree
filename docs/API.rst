@@ -4,8 +4,8 @@ API
 .. module:: datatree
 
 The API is mostly dynamic and so by nature difficult to document.  If you have
-any suggestions for this please leave a not for me at 
-`bigjason.com <http://www.bigjason.com/>`_.
+any suggestions for this please leave a note for me at 
+`www.bigjason.com <http://www.bigjason.com/>`_.
 
 Tree
 ----
@@ -22,3 +22,36 @@ Node is not instantiated directly, but is created for every node added to the
 
 .. autoclass:: datatree.node.Node
    :inherited-members:
+   
+Renderers
+---------
+The renderers are responsible for converting the datatree into a usable 
+format. Usually this format is a string, but sometimes other formats are 
+used.
+
+The examples in this section use this datatree::
+
+    from datatree import Tree
+
+    tree = Tree()
+    with tree.author() as author:
+        author.name('Terry Pratchett')
+        author.genre('Fantasy/Comedy')
+        author // "Only 2 books listed"
+        with author.novels(count=2) as novels:
+            novels.novel('Small Gods', year=1992)
+            novels.novel('The Fifth Elephant', year=1999)
+            novels << Node("novel", "Guards! Guards!", year=1989)
+
+
+XmlRenderer
+^^^^^^^^^^^
+.. automodule:: datatree.render.xmlrenderer 
+
+JsonRenderer
+^^^^^^^^^^^^
+.. automodule:: datatree.render.jsonrender 
+
+YamlRenderer
+^^^^^^^^^^^^
+.. automodule:: datatree.render.yamlrender 

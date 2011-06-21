@@ -1,3 +1,32 @@
+"""
+Outputs the tree as yaml string using the `PyYAML <http://pypi.python.org/pypi/PyYAML/>`_
+package (which must be installed).  It is available under the alias ``'yaml'``
+or ``'yml'``.
+
+Options
+-------
+
+=========  =================================================
+Name       Description
+=========  =================================================
+*None*
+=========  =================================================
+
+Example Output
+--------------
+.. code-block:: python
+
+    tree('yaml')
+
+.. code-block:: yaml 
+
+    author:
+      genre: Fantasy/Comedy
+      name: Terry Pratchett
+      novels: [Small Gods, The Fifth Elephant, Guards! Guards!]
+        
+"""
+
 from yaml import dump
 try:
     from yaml import CDumper as Dumper

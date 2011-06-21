@@ -12,7 +12,7 @@ _plugins = [
     [("xml",), 'datatree.render.xmlrenderer.XmlRenderer'],
     [('etree'), 'datatree.render.etreerender.ETreeRenderer'],
     [('dict', 'dictionary'), 'datatree.render.dictrender.DictTreeRenderer'],
-    [('json', 'jsn'), 'datatree.render.jsonrender.JsonRenderer'],
+    [('json', 'jsn', 'js'), 'datatree.render.jsonrender.JsonRenderer'],
     [('yaml', 'yml'), 'datatree.render.yamlrender.YamlRenderer']
 ]
 
@@ -29,7 +29,8 @@ class BaseNode(object):
         """Register a renderer class with the datatree rendering system.
         
         :keyword klass: Either a string with the fully qualified name of the 
-          renderer class to load, or the actual class itself. 
+          renderer class to register, or the actual class itself.  The name
+          will be read from the class. 
         """
         if isinstance(klass, str):
             klass = get_class(klass)
@@ -43,6 +44,9 @@ class BaseNode(object):
         return '{0}/{1}'.format(self.__node_name__, self.__value__)
 
     def to_string(self, level=0):
+        """Create an ugly representation of the datatree from this node down. This
+        is included as a debug aid and is not good for much else.
+        """
         result = StringIO()
         prefix = ' ' * level
         new_level = level + 2
@@ -59,6 +63,9 @@ class BaseNode(object):
         
         :keyword renderer: The name of the renderer to use.  You may add more
             renderers by using the register_renderer method.
+            
+        :keyword as_root: If True, the tree will be rendered from this node down,
+            otherwise rendering will happen from the tree root.
         
         :keyword options: Key value pairs of options that will be passed to
             the renderer.         
@@ -123,6 +130,15 @@ class Vertice(BaseNode):
         return False
 
     def COMMENT(self, text):
+        """Adds a comment to the node. Alternatively you can use the ``//`` operator
+        to create comments like this: ``tree // "A comment in here"``.  With the 
+        XmlRenderer this would produce the comment ``<!--A comment in here -->``. 
+        
+        *Note: Comments are ignored by some of the renderers such as json.  Consult
+        the documentation to find out the behaviour.*
+        
+        :keyword text: Text of the comment.
+        """
         return self.add_child(child_class=CommentNode, node_name='!COMMENT!', node_value=text)
 
     def CDATA(self, text):
@@ -175,9 +191,27 @@ class Tree(Vertice):
         return other.union(this)
 
     def INSTRUCT(self, name='xml', **attrs):
+        """Add an xml processing instruction.
+        
+        :keyword name: Name of the instruction node. A value of xml will create 
+            the instruction ``<?xml ?>``.
+        
+        :keyword attrs: Any extra attributes for the instruction. 
+        """
         return self.add_child(child_class=InstructionNode, node_name=name, **attrs)
 
     def DECLARE(self, name, *attrs):
+        """Add an xml declaration to the datatree.  
+        *Note:* This functionality is pretty limited for the time being, hopefully
+        the API for this will become more clear with time. 
+        
+        :keyword name: Name of the declaration node.
+        
+        :keyword attrs: Extra attributes to be added. Strings will be added as 
+            quoted strings.  Symbols will be added as unquoted strings. Import
+            the ``__`` object and use it like this: ``__.SomeValue`` to add a
+            symbol.
+        """
         child = self.add_child(child_class=DeclarationNode, node_name=name)
         child.__declaration_params__ = attrs
         return child

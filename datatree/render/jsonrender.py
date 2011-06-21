@@ -1,3 +1,38 @@
+"""
+Outputs the tree as json string using the python json module.  It is available
+under the alias ``'json'``, ``'jsn'`` or ``'js'``.
+
+Options
+-------
+
+=========  =================================================
+Name       Description
+=========  =================================================
+pretty     Outputs the json document with pretty formatting.
+sort_keys  Sorts the keys in the json document. 
+=========  =================================================
+
+Example Output
+--------------
+.. code-block:: python
+
+    tree('json', pretty=True)
+
+.. code-block:: js 
+
+    {
+        "author": {
+            "genre": "Fantasy/Comedy", 
+            "name": "Terry Pratchett", 
+            "novels": [
+                "Small Gods", 
+                "The Fifth Elephant", 
+                "Guards! Guards!"
+            ]
+        }
+    }
+        
+"""
 from json import dumps
 
 from .dictrender import DictTreeRenderer

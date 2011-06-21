@@ -6,6 +6,10 @@ except ImportError:
 from datatree.render.base import InternalRenderer
 
 class ETreeRenderer(InternalRenderer):
+    default_options = {
+        'as_string': False
+    }
+
     def render_node(self, node, parent=None, options={}):
         attrs = {}
         for key, value in node.__attrs__.iteritems():
@@ -26,5 +30,9 @@ class ETreeRenderer(InternalRenderer):
     def to_etree(self):
         return e.ElementTree(self.to_xml())
 
-    def render_final(self, rendered, pretty=True, options={}):
-        return e.tostring(rendered)
+    def render_final(self, rendered, options={}):
+        options = self.get_options(options)
+        if options['as_string']:
+            return e.tostring(rendered)
+        else:
+            return e.ElementTree(rendered)

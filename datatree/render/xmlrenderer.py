@@ -1,9 +1,52 @@
+"""
+Outputs the tree as an xml string.  It is available under the alias ``'xml'``.
+
+Options
+-------
+
+====== =================================================
+Name   Description
+====== =================================================
+pretty Outputs the xml document with pretty formatting.
+indent Works with pretty formatting.  It is the string 
+       that will be used to indent each leval
+====== =================================================
+
+Example Output
+--------------
+.. code-block:: python
+
+    tree('xml', pretty=True)
+
+Or even shorter:
+
+.. code-block:: python
+
+    tree(pretty=True)
+
+.. code-block:: xml 
+
+    <author>
+        <name>Terry Pratchett</name>
+        <genre>Fantasy/Comedy</genre>
+        <!-- Only 2 books listed -->
+        <novels count="2">
+            <novel year="1992">Small Gods</novel>
+            <novel year="1999">The Fifth Elephant</novel>
+            <novel year="1989">Guards! Guards!</novel>
+        </novels>
+    </author>
+"""
 from xml.sax.saxutils import escape, quoteattr
 from StringIO import StringIO # cStringIO has no unicode support. Do we care?
 
 from datatree.render.base import InternalRenderer
-from datatree.node import Tree, CDataNode, CommentNode, DeclarationNode, InstructionNode
 from datatree.symbols import Symbol
+from datatree.node import (Tree, 
+                           CDataNode, 
+                           CommentNode, 
+                           DeclarationNode, 
+                           InstructionNode)
 
 class XmlRenderer(InternalRenderer):
     """
