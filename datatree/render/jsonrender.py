@@ -39,7 +39,7 @@ from .dictrender import DictTreeRenderer
 
 class JsonRenderer(DictTreeRenderer):
     default_options = {
-        'pretty': True,
+        'pretty': False,
         'sort_keys': False
     }
 
