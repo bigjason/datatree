@@ -9,7 +9,7 @@ any suggestions for this please leave a note for me at
 
 Tree
 ----
-You can call any method name on the :class:`Tree <datatree.Tree>` to create a 
+You can call (*almost*) any method name on the :class:`Tree <datatree.Tree>` to create a 
 new Node.
 
 .. autoclass:: datatree.Tree

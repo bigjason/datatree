@@ -6,7 +6,7 @@ Options
 -------
 
 ================= ============================================================== ===========
-Name              Description                                                    Example
+Name              Description                                                    Default
 ================= ============================================================== ===========
 pretty_string     When True, outputs the ``dict`` as a string with pretty        ``False``
                   formatting.

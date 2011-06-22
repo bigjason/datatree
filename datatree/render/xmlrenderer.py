@@ -5,7 +5,7 @@ Options
 -------
 
 ======= ============================================================== ===========
-Name    Description                                                    Example
+Name    Description                                                    Default
 ======= ============================================================== ===========
 pretty  When True, Outputs the xml document with pretty formatting.    ``False``
 indent  Used with pretty formatting.  It is the string that will       ``'    '``
