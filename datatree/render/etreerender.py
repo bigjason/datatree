@@ -1,3 +1,21 @@
+"""
+Outputs the tree as an elementtree.  It is available under the alias ``'etree'``.
+
+**Note:** *This module is not fully implemented.  It supports the basic node
+types, but not comments, declarations, instructions or cdata.*
+
+Options
+-------
+
+=========  ================================================= ==========
+Name       Description                                       Default
+=========  ================================================= ==========
+as_string  Outputs the document as a string instead of a     ``False``
+           populated elementtree.
+=========  ================================================= ==========
+
+"""
+
 try:
     import xml.etree.cElementTree as e
 except ImportError:

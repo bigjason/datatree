@@ -5,12 +5,12 @@ under the alias ``'json'``, ``'jsn'`` or ``'js'``.
 Options
 -------
 
-=========  =================================================
-Name       Description
-=========  =================================================
-pretty     Outputs the json document with pretty formatting.
-sort_keys  Sorts the keys in the json document. 
-=========  =================================================
+=========  ================================================= ==========
+Name       Description                                       Default
+=========  ================================================= ==========
+pretty     Outputs the json document with pretty formatting. ``False``
+sort_keys  Sorts the keys in the json document.              ``False``
+=========  ================================================= ==========
 
 Example Output
 --------------
@@ -35,9 +35,9 @@ Example Output
 """
 from json import dumps
 
-from .dictrender import DictTreeRenderer
+from .dictrender import DictRenderer
 
-class JsonRenderer(DictTreeRenderer):
+class JsonRenderer(DictRenderer):
     default_options = {
         'pretty': False,
         'sort_keys': False

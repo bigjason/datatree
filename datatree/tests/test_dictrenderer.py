@@ -4,7 +4,7 @@ except ImportError:
     import unittest
     
 from datatree import Tree, n
-from datatree.render.dictrender import DictTreeRenderer, NodeLossError
+from datatree.render.dictrender import DictRenderer, NodeLossError
 
 class test_DictRenderer(unittest.TestCase):
     def test_nested_render(self):
@@ -35,7 +35,7 @@ class test_DictRenderer(unittest.TestCase):
             root.person('Two')
             root.person('Three')
         
-        render = DictTreeRenderer()
+        render = DictRenderer()
         self.assertSetEqual(render._children_distinct_names(root.__children__), set(["person"]))
 
     def test__children_distinct_names_are_different(self):
@@ -45,12 +45,12 @@ class test_DictRenderer(unittest.TestCase):
             root.different('Two')
             root.strokes('Three')
         
-        render = DictTreeRenderer()
+        render = DictRenderer()
         expected = set(["person", "different", "strokes"])
         self.assertSetEqual(render._children_distinct_names(root.__children__), expected)
         
     def test__children_distinct_names_large(self):
-        render = DictTreeRenderer()
+        render = DictRenderer()
         tree = Tree()
         with tree.root() as root:
             root << [n('Node', i) for i in range(1000)]

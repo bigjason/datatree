@@ -6,11 +6,11 @@ or ``'yml'``.
 Options
 -------
 
-=========  =================================================
-Name       Description
-=========  =================================================
+=========  ================================================= ===========
+Name       Description                                       Default
+=========  ================================================= ===========
 *None*
-=========  =================================================
+=========  ================================================= ===========
 
 Example Output
 --------------
@@ -33,9 +33,9 @@ try:
 except ImportError:
     from yaml import Dumper
 
-from .dictrender import DictTreeRenderer
+from .dictrender import DictRenderer
 
-class YamlRenderer(DictTreeRenderer):
+class YamlRenderer(DictRenderer):
     default_options = {
     }
 

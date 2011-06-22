@@ -5,6 +5,19 @@ Change Log
 .. contents::
     :local:
 
+.. v0.1.8:
+
+0.1.8
+=====
+:Release Date: 06-21-2011
+
+* :class:`JsonRenderer <datatree.render.jsonrender>` pretty option
+  now defaults to ``False``.
+
+* Documentation updates.
+
+* Bug fixes.
+
 .. v0.1.7:
 
 0.1.7

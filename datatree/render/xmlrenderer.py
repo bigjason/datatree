@@ -4,13 +4,13 @@ Outputs the tree as an xml string.  It is available under the alias ``'xml'``.
 Options
 -------
 
-======= ==============================================================
-Name    Description
-======= ==============================================================
-pretty  When True, Outputs the xml document with pretty formatting.
-indent  Used with pretty formatting.  It is the string that will
-        be used to indent each level. Default is ``'    '``.
-======= ==============================================================
+======= ============================================================== ===========
+Name    Description                                                    Example
+======= ============================================================== ===========
+pretty  When True, Outputs the xml document with pretty formatting.    ``False``
+indent  Used with pretty formatting.  It is the string that will       ``'    '``
+        be used to indent each level.
+======= ============================================================== ===========
 
 Example Output
 --------------

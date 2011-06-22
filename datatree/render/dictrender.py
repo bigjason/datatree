@@ -1,9 +1,46 @@
+"""
+Outputs the tree as python dict.  It is available under the alias ``'dict'`` 
+and ``'dictionary'``.
+
+Options
+-------
+
+================= ============================================================== ===========
+Name              Description                                                    Example
+================= ============================================================== ===========
+pretty_string     When True, outputs the ``dict`` as a string with pretty        ``False``
+                  formatting.
+allow_node_loss   Determines if a duplicate node name will result in a node      ``False`` 
+                  loss due to duplicate keys in the dict.
+================= ============================================================== ===========
+
+Example Output
+--------------
+.. code-block:: python
+
+    tree('dict', pretty_string=True)
+
+.. code-block:: python 
+
+    {'author': {'genre': 'Fantasy/Comedy',
+                'name': 'Terry Pratchett',
+                'novels': ['Small Gods', 'The Fifth Elephant', 'Guards! Guards!']}}
+
+Duplicate Node Names
+--------------------
+While xml handles duplicate nodes just fine, python dicts and json for that matter
+do not allow duplicates.  To handle this the DictRenderer will attempt to
+group nodes with the same name into a sub dictionary. This is why in the above 
+example there is only one key for "novels".
+
+"""
+
 from pprint import pformat
 
 from datatree.render.base import InternalRenderer
 from datatree.tree import Tree
 
-class DictTreeRenderer(InternalRenderer):
+class DictRenderer(InternalRenderer):
     default_options = {
         'pretty_string': False,
         'allow_node_loss': False

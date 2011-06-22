@@ -55,3 +55,11 @@ JsonRenderer
 YamlRenderer
 ^^^^^^^^^^^^
 .. automodule:: datatree.render.yamlrender 
+
+DictRenderer
+^^^^^^^^^^^^
+.. automodule:: datatree.render.dictrender 
+
+ETreeRenderer
+^^^^^^^^^^^^^
+.. automodule:: datatree.render.etreerender

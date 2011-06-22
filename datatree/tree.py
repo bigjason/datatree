@@ -11,7 +11,7 @@ __ = Name
 _plugins = [
     [("xml",), 'datatree.render.xmlrenderer.XmlRenderer'],
     [('etree'), 'datatree.render.etreerender.ETreeRenderer'],
-    [('dict', 'dictionary'), 'datatree.render.dictrender.DictTreeRenderer'],
+    [('dict', 'dictionary'), 'datatree.render.dictrender.DictRenderer'],
     [('json', 'jsn', 'js'), 'datatree.render.jsonrender.JsonRenderer'],
     [('yaml', 'yml'), 'datatree.render.yamlrender.YamlRenderer']
 ]
