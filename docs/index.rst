@@ -13,6 +13,7 @@ Contents:
    overview
    API
    changelog
+   roadmap
 
 Indices and tables
 ==================

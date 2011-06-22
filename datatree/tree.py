@@ -134,8 +134,8 @@ class Vertice(BaseNode):
         to create comments like this: ``tree // "A comment in here"``.  With the 
         XmlRenderer this would produce the comment ``<!--A comment in here -->``. 
         
-        *Note: Comments are ignored by some of the renderers such as json.  Consult
-        the documentation to find out the behaviour.*
+        *Note: Comments are ignored by some of the renderers such as json and dict.  
+        Consult the documentation to find out the behaviour.*
         
         :keyword text: Text of the comment.
         """
@@ -202,6 +202,7 @@ class Tree(Vertice):
 
     def DECLARE(self, name, *attrs):
         """Add an xml declaration to the datatree.  
+        
         *Note:* This functionality is pretty limited for the time being, hopefully
         the API for this will become more clear with time. 
         

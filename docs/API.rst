@@ -63,3 +63,9 @@ DictRenderer
 ETreeRenderer
 ^^^^^^^^^^^^^
 .. automodule:: datatree.render.etreerender
+
+Implementing a Renderer
+^^^^^^^^^^^^^^^^^^^^^^^
+You can implement your own renderer.  Just look at the source for one of the 
+existing renderers and implement the same methods, and then register your plugin
+with the :meth:`~datatree.Tree.register_renderer` method.
