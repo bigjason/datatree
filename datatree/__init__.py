@@ -1,4 +1,4 @@
-from .node import Tree, n, Node, Name, __
+from .tree import Tree, n, Node, Name, __
 
 __all__ = ['Tree', 'Node', 'n', 'Name', '__']
 

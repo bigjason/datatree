@@ -1,7 +1,7 @@
 from pprint import pformat
 
 from datatree.render.base import InternalRenderer
-from datatree.node import Tree
+from datatree.tree import Tree
 
 class DictTreeRenderer(InternalRenderer):
     default_options = {

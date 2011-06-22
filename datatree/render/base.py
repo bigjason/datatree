@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from datatree.node import Vertice, InstructionNode
+from datatree.tree import Vertice, InstructionNode
 
 class Renderer(object):
     @property

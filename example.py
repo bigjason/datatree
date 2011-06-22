@@ -1,4 +1,4 @@
-from datatree.node import Tree, Node
+from datatree.tree import Tree, Node
 
 if __name__ == '__main__':
     author = Tree().author()
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     print
     print
     print 'JSON:'
-    print author('json')
+    print author('json', pretty=True)
     print
     print
     print 'YAML:'

@@ -3,7 +3,7 @@ try:
 except ImportError:
     import unittest
 
-from datatree.node import Node, n, Tree
+from datatree import Node, n, Tree
 
 class test_Node(unittest.TestCase):
 
@@ -44,12 +44,12 @@ class test_Node(unittest.TestCase):
         self.assertEqual(child.__node_name__, 'level1')
         self.assertEqual(child.__value__, 'two')
         self.assertDictEqual(child.__attrs__, {'some': 'attr'})
-        
+
     def test_add_child_node(self):
         tree = Tree()
         node = Node("A Value")
         tree.add_child_node(node)
-        
+
         self.assertEqual(tree.__children__[0], node)
 
     def test_add_duplicate_nodes(self):

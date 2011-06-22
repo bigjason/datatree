@@ -20,7 +20,7 @@ Node
 Node is not instantiated directly, but is created for every node added to the 
 :class:`Tree <datatree.Tree>`.
 
-.. autoclass:: datatree.node.Node
+.. autoclass:: datatree.tree.Node
    :inherited-members:
    
 Renderers

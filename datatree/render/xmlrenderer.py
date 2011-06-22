@@ -42,7 +42,7 @@ from StringIO import StringIO # TODO: cStringIO has no unicode support. Do we ca
 
 from datatree.render.base import InternalRenderer
 from datatree.symbols import Symbol
-from datatree.node import (Tree, 
+from datatree.tree import (Tree, 
                            CDataNode, 
                            CommentNode, 
                            DeclarationNode, 
