@@ -54,3 +54,4 @@ class ETreeRenderer(InternalRenderer):
             return e.tostring(rendered)
         else:
             return e.ElementTree(rendered)
+

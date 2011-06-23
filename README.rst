@@ -28,7 +28,7 @@ Example
 -------
 A small example:: 
 
-    from datatree import Tree
+    from datatree import Tree, Node
 
     tree = Tree()
     with tree.author() as author:
