@@ -22,20 +22,31 @@ class test_JsonRenderer(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-    def test_json_nested(self):
-
-        author = Tree().author()
+    def _get_complex_tree(self):
+        tree = Tree()
+        author = tree.author()
         author.name('Terry Pratchett')
         author.genere('Fantasy/Comedy')
         with author.novels(count=2) as novels:
             novels.novel('Small Gods', year=1992)
             novels.novel('The Fifth Elephant', year=1999)
+        return tree
 
+    _complex_expected = {'author': {
+                          'name': 'Terry Pratchett',
+                          'genere': 'Fantasy/Comedy',
+                          'novels': ['Small Gods', 'The Fifth Elephant']
+                          }
+                        }
+
+    def test_json_nested(self):
+        author = self._get_complex_tree()
         actual = self.json_to_dict(author.render('json'))
-        expected = {'author': {
-                        'name': 'Terry Pratchett',
-                        'genere': 'Fantasy/Comedy',
-                        'novels': ['Small Gods', 'The Fifth Elephant']
-                    }
-        }
-        self.assertDictEqual(actual, expected)
+        
+        self.assertDictEqual(actual, self._complex_expected)
+
+    def test_json_pretty(self):
+        author = self._get_complex_tree()
+        actual = self.json_to_dict(author.render('json', pretty=True))
+        
+        self.assertDictEqual(actual, self._complex_expected)
