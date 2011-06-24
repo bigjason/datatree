@@ -1,6 +1,8 @@
 Planned Features
 ================
 
+* Support for xml namespaces.
+
 * Addition of an HTML renderer.
 
 * Full unicode support.

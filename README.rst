@@ -79,8 +79,7 @@ Or the YAML::
 
 License
 -------
-This work is licensed under the Creative Commons Attribution 3.0 Unported 
-License. You can view a copy of this license `here <http://creativecommons.org/licenses/by/3.0/>`_.
+This work is licensed under the `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>`_.
 
 Souce Code
 ----------

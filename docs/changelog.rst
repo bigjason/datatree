@@ -5,6 +5,15 @@ Change Log
 .. contents::
     :local:
 
+.. v0.1.9:
+
+0.1.9
+=====
+:Release Date: *TBD*
+
+* Changed license to `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>`_.
+
+
 .. v0.1.8:
 
 0.1.8
