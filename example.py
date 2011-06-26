@@ -1,8 +1,9 @@
 from datatree.tree import Tree, Node
 
 if __name__ == '__main__':
-    
-    with Tree().author() as author:
+    tree = Tree()
+    tree.INSTRUCT('xml', version='1.0')
+    with tree.author() as author:
         author.name('Terry Pratchett')
         author.genre('Fantasy/Comedy')
         author // "Only 2 books listed"
@@ -25,3 +26,4 @@ if __name__ == '__main__':
     print
     print 'Dict:'
     print author('dict', pretty_string=True)
+

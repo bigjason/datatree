@@ -91,6 +91,11 @@ I welcome any and all constructive feedback.  Feel free to contact me (Jason Web
 `www.bigjason.com <http://www.bigjason.com/>`_ or on twitter 
 `@bigjasonwebb <http://www.twitter.com/BigJasonWebb>`_.
 
+Contributing
+------------
+Contributions are welcome.  Just fork on github_ and I will try to be as responsive
+as possible.
+
 
 .. _ruby builder: http://builder.rubyforge.org/
 .. _github: https://github.com/bigjason/datatree

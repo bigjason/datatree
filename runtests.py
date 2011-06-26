@@ -69,4 +69,4 @@ if __name__ == "__main__":
     cov.stop()
     # Output the coverage
     cov.html_report(directory='htmlcov')
-    print 'Coverage report written to: {}'.format(path.join(path.dirname(__file__), 'htmlcov', 'index.html'))
+    print 'Coverage report written to: {0}'.format(path.join(path.dirname(__file__), 'htmlcov', 'index.html'))

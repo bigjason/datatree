@@ -5,13 +5,14 @@ Change Log
 .. contents::
     :local:
 
-.. v0.1.9:
+.. v0.1.8.1:
 
-0.1.9
+0.1.8.1
 =====
 :Release Date: *TBD*
 
 * Changed license to `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>`_.
+* Added coverage.py to the test suite along with some testing updates.
 
 
 .. v0.1.8:
