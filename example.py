@@ -1,4 +1,4 @@
-from datatree.tree import Tree, Node
+from datatree import Tree
 
 if __name__ == '__main__':
     tree = Tree()

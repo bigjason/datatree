@@ -28,7 +28,7 @@ class BaseNode(object):
             which generally means it is ignored during rendering.
         :param node_parent: The parent node if any.
         :param node_namespace: The declared namespace for the ``Node``.  A dict
-        :param attrs:
+        :param attributes:
         """
         self.__children__ = []
         self.__node_name__ = node_name

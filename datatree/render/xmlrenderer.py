@@ -64,7 +64,7 @@ class XmlRenderer(InternalRenderer):
         newline = '\n' if options.get('pretty') else ''
 
         def safe_str(val):
-            return str(val) if val != None else ''
+            return str(val) if val is not None else ''
 
         def safe_quote(val):
             return val.replace('"', '&quot;')
@@ -81,8 +81,8 @@ class XmlRenderer(InternalRenderer):
                 self.render_node(child, doc=doc, level=level + 1, options=options)
 
         def data_node():
-            attrs = self.get_attrs_str(node.__attrs__)
-            if not node.__children__ and node.__value__ == None:
+            attrs = self.get_attrs_str(node.__attributes__)
+            if not node.__children__ and node.__value__ is None:
                 doc.write('<{0} {1}{2}/>'.format(node.__node_name__,
                                               attrs,
                                               ' ' if attrs else ''))
@@ -90,7 +90,7 @@ class XmlRenderer(InternalRenderer):
                 doc.write('<{0}{1}{2}>'.format(node.__node_name__,
                                             ' ' if attrs else '',
                                             attrs))
-                if node.__value__ != None:
+                if node.__value__ is not None:
                     if len(node.__children__) > 0:
                         doc.write(newline)
                         doc.write(indent)
@@ -111,7 +111,7 @@ class XmlRenderer(InternalRenderer):
             if node.__node_name__ == 'xml':
                 attrs['version'] = '1.0'
                 attrs['encoding'] = 'UTF-8'
-            attrs.update(node.__attrs__)
+            attrs.update(node.__attributes__)
             attrs_str = self.get_attrs_str(attrs)
 
             doc.write('<?{0}{1}{2}?>'.format(node.__node_name__,
