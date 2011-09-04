@@ -134,8 +134,8 @@ class XmlRenderer(InternalRenderer):
             doc.write('<!{0}{1}>'.format(node.__node_name__, attrs_str))
 
         def cdata_node():
-            # Attrs are ignored for CDATA
-            doc.write('<![CDATA[{0}]]>'.format(safe_str(node.__value__)))
+            # Attrs are ignored for cdata
+            doc.write('<![cdata[{0}]]>'.format(safe_str(node.__value__)))
 
         ## Actual flow of render starts here ##
 

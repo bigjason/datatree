@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from datatree.tree import Vertice, InstructionNode
+from datatree.tree import Vertex, InstructionNode
 
 class Renderer(object):
     @property
@@ -28,10 +28,10 @@ class InternalRenderer(Renderer):
 
     def data_only(self, node):
         """Return all DATA child nodes only."""
-        return self.__filter(node, Vertice)
+        return self.__filter(node, Vertex)
 
     def instruction_only(self, node):
-        """Return all INSTRUCT child nodes only."""
+        """Return all instruct child nodes only."""
         return self.__filter(node, InstructionNode)
 
     def __filter(self, node, node_type):

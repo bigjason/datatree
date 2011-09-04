@@ -17,8 +17,8 @@ class test_Node(unittest.TestCase):
         root = Node('a', 'Here', href='url', title='A Title')
 
         self.assertEqual(root.__node_name__, 'a')
-        self.assertEqual(root.__attrs__['href'], 'url')
-        self.assertEqual(root.__attrs__['title'], 'A Title')
+        self.assertEqual(root.__attributes__['href'], 'url')
+        self.assertEqual(root.__attributes__['title'], 'A Title')
         self.assertEqual(root.__value__, 'Here')
 
     def test_nested(self):

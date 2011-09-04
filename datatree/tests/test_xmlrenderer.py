@@ -51,35 +51,35 @@ class test_XmlRenderer(unittest.TestCase):
 
     def test_render_cdata_string(self):
         tree = Tree()
-        tree.root().CDATA("Some Value")
-        self.assertIn('<![CDATA[Some Value]]>', tree('xml'))
+        tree.root().cdata("Some Value")
+        self.assertIn('<![cdata[Some Value]]>', tree('xml'))
         
     def test_render_cdata_not_string(self):
         int_val = 1234567891011121314151617181920
         tree = Tree()
-        tree.root().CDATA(int_val)
-        self.assertIn('<![CDATA[{0}]]>'.format(str(int_val)), tree('xml'))
+        tree.root().cdata(int_val)
+        self.assertIn('<![cdata[{0}]]>'.format(str(int_val)), tree('xml'))
         
     def test_render_declatation(self):
         tree = Tree()
-        tree.DECLARE('ELEMENT', __.Value, 'A value here.')
+        tree.declare('ELEMENT', __.Value, 'A value here.')
         self.assertIn(tree(), r'<!ELEMENT Value "A value here.">')
         
     def test_render_instruction_xml(self):
         tree = Tree()
-        tree.INSTRUCT('xml')
+        tree.instruct('xml')
         self.assertIn(tree(), '<?xml version="1.0" encoding="UTF-8"?>')
         
     def test_render_instruction(self):
         tree = Tree()
-        tree.INSTRUCT('process', do="Good")
+        tree.instruct('process', do="Good")
         self.assertIn(tree(), '<?process do="Good"?>')
 
     def _get_complex_structure(self):        
         tree = Tree()
-        tree.INSTRUCT('xml')
-        #tree.CDATA(r"<b>I am some text.</b>")
-        tree.DECLARE('DOCTYPE', __.author, __.SYSTEM,  'SomeDTD.dtd')
+        tree.instruct('xml')
+        #tree.cdata(r"<b>I am some text.</b>")
+        tree.declare('DOCTYPE', __.author, __.SYSTEM,  'SomeDTD.dtd')
         with tree.author() as author: 
             author.name('Terry Pratchett')
             author.genre('Fantasy/Comedy')

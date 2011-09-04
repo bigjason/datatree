@@ -6,7 +6,7 @@ API
 The API follows (mostly) some basic rules to help separate the dynamic "magical"
 parts from the concrete implementation.  All internal method names follow the
 `dunder <http://wiki.python.org/moin/DunderAlias>`_ format, ie:
-``__get_methods__``.  All public methods are in uppercase, ie: ``COMMENT``.
+``__get_methods__``.  All public methods are in uppercase, ie: ``comment``.
 This style holds true for most of the API.
 
 .. note::

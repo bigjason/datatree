@@ -18,7 +18,7 @@ _plugins = [
 
 class BaseNode(object):
     def __init__(self, node_name='root', node_value=None, node_parent=None,
-                 node_namespace=None, **attrs):
+                 node_namespace=None, **attributes):
         """
 
         :param node_name: The name identifier for the node.  Default value is
@@ -35,7 +35,7 @@ class BaseNode(object):
         self.__value__ = node_value
         self.__parent__ = node_parent
         self.__name_space__ = node_namespace
-        self.__attrs__ = attrs
+        self.__attributes__ = attributes
 
     @staticmethod
     def register_renderer(klass):
@@ -57,8 +57,8 @@ class BaseNode(object):
         return '{0}/{1}'.format(self.__node_name__, self.__value__)
 
     def to_string(self, level=0):
-        """Create an ugly representation of the datatree from this node down. This
-        is included as a debug aid and is not good for much else.
+        """Create an ugly representation of the datatree from this node
+        down. This is included as a debug aid and is not good for much else.
         """
         result = StringIO()
         prefix = ' ' * level
@@ -98,7 +98,7 @@ class BaseNode(object):
                     render_kls = get_class(kls)
                     plugin[1] = render_kls
                 break
-        # TODO: Should the renderers be instantiated?
+                # TODO: Should the renderers be instantiated?
         return render_kls().render(self, options=options)
 
     def __call__(self, renderer='xml', **options):
@@ -107,36 +107,13 @@ class BaseNode(object):
         return self.render(renderer, **options)
 
 
-class Vertice(BaseNode):
+class Vertex(BaseNode):
     """Node that can have children.
     """
 
     def __init__(self, *args, **kwargs):
-        super(Vertice, self).__init__(*args, **kwargs)
+        super(Vertex, self).__init__(*args, **kwargs)
         self.__methods__ = self.__get_methods__()
-
-    def __get_methods__(self):
-        this = set(['add_child', 'add_child_node', 'COMMENT', 'CDATA'])
-        other = super(Vertice, self).__get_methods__()
-        return other.union(this)
-
-    def __getattribute__(self, name):
-        try:
-            if (name.startswith('__') and name.endswith('__')) or\
-               name in self.__methods__:
-                val = super(Vertice, self).__getattribute__(name)
-                return val
-            else:
-                raise ValueError()
-        except ValueError:
-            def add_node_child(self, node_value=None, node_name=None, **attrs):
-                child_node = Node(node_name=node_name or name,
-                                  node_value=node_value, node_parent=self,
-                                  **attrs)
-                self.__children__.append(child_node)
-                return child_node
-
-            return add_node_child.__get__(self)
 
     def __enter__(self):
         return self
@@ -144,24 +121,32 @@ class Vertice(BaseNode):
     def __exit__(self, exc_type, exc_value, traceback):
         return False
 
-    def COMMENT(self, text):
-        """Adds a comment to the node. Alternatively you can use the ``//`` operator
-        to create comments like this: ``tree // "A comment in here"``.  With the 
-        XmlRenderer this would produce the comment ``<!--A comment in here -->``. 
+    def comment(self, text):
+        """Adds a comment to the node.
         
-        *Note: Comments are ignored by some of the renderers such as json and dict.  
-        Consult the documentation to find out the behaviour.*
+        *Note: Comments are ignored by some of the renderers such as json and
+            dict. Consult the documentation to find out the behaviour.*
         
         :keyword text: Text of the comment.
         """
-        return self.add_child(child_class=CommentNode, node_name='!COMMENT!',
-                              node_value=text)
+        return self.add_node(
+            CommentNode(
+                node_name="!COMMENT!",
+                node_value=text,
+                node_parent=self
+            )
+        )
 
-    def CDATA(self, text):
-        return self.add_child(child_class=CDataNode, node_name='!CDATA!',
-                              node_value=text)
+    def cdata(self, text, **attributes):
+        return self.add_node(
+            CDataNode(
+                node_name='!CDATA!',
+                node_value=text,
+                **attributes
+            )
+        )
 
-    def NS(self, name=None, url=None):
+    def ns(self, name=None, url=None):
         ns = NameSpace(name_space=url)
         setattr(self, name, ns)
         return ns
@@ -169,30 +154,18 @@ class Vertice(BaseNode):
 
     ### Child Manipulation Methods ###
 
-    def add_child(self, child_class=None, *args, **kwargs):
-        if child_class is None:
-            child_class = Node
-        kwargs['node_parent'] = self
-        child = child_class(*args, **kwargs)
-        self.__children__.append(child)
-        return child
+    def node(self, name, text=None, **attributes):
+        new_node = Node(
+            node_name=name,
+            node_value=text,
+            **attributes
+        )
+        self.add_node(new_node)
+        return new_node
 
-    def add_child_node(self, child_node):
-        """For use when adding an existing Node."""
-        self.__children__.append(child_node)
-        return child_node
-
-    ### Operator Overloads ###
-
-    def __lshift__(self, other):
-        if isinstance(other, BaseNode):
-            other = [other]
-        for item in other:
-            self.add_child_node(item)
-        return self
-
-    def __floordiv__(self, text):
-        return self.COMMENT(text)
+    def add_node(self, node):
+        self.__children__.append(node)
+        return node
 
 
 class Leaf(BaseNode):
@@ -201,7 +174,7 @@ class Leaf(BaseNode):
     pass
 
 
-class Tree(Vertice):
+class Tree(Vertex):
     """Very top node in a datatree.
     
     The Tree is the top node used to build a datatree.
@@ -211,23 +184,17 @@ class Tree(Vertice):
         kwargs['node_name'] = None
         super(Tree, self).__init__(*args, **kwargs)
 
-    def __get_methods__(self):
-        this = set(['DECLARE', 'INSTRUCT'])
-        other = super(Tree, self).__get_methods__()
-        return other.union(this)
-
-    def INSTRUCT(self, name='xml', **attrs):
+    def instruct(self, name='xml', **attributes):
         """Add an xml processing instruction.
         
         :keyword name: Name of the instruction node. A value of xml will create 
             the instruction ``<?xml ?>``.
         
-        :keyword attrs: Any extra attributes for the instruction. 
+        :keyword attributes: Any extra attributes for the instruction.
         """
-        return self.add_child(child_class=InstructionNode, node_name=name,
-                              **attrs)
+        return self.add_node(InstructionNode(node_name=name, **attributes))
 
-    def DECLARE(self, name, *attrs):
+    def declare(self, name, **attributes):
         """Add an xml declaration to the datatree.  
         
         *Note:* This functionality is pretty limited for the time being,
@@ -240,17 +207,19 @@ class Tree(Vertice):
             the ``__`` object and use it like this: ``__.SomeValue`` to add a
             symbol.
         """
-        child = self.add_child(child_class=DeclarationNode, node_name=name)
-        child.__declaration_params__ = attrs
+        child = self.add_node(DeclarationNode(node_name=name))
+        child.__declaration_params__ = attributes
         return child
 
 
-class Node(Vertice):
-    def __init__(self, node_name='root', node_value=None, **attrs):
-        super(Node, self).__init__(node_name=node_name, node_value=node_value,
-                                   **attrs)
+class Node(Vertex):
+    """A node is able to be instantiated directly and added to any Vertex.
+    """
 
-n = Node
+    def __init__(self, node_name='root', node_value=None, **attributes):
+        super(Node, self).__init__(node_name=node_name, node_value=node_value,
+                                   **attributes)
+
 
 class InstructionNode(Leaf):
     pass
@@ -276,9 +245,11 @@ class CommentNode(Leaf):
 class CDataNode(Leaf):
     pass
 
-class NameSpace(Vertice):
+
+class NameSpace(Vertex):
     """A namespace is declared on the tree and accepts child nodes.  It is
     mostly ignored by the renderers with the exception of the XMLRenderer.
     """
+
     def __init__(self, *args, **kwargs):
         super(NameSpace, self).__init__(*args, **kwargs)
