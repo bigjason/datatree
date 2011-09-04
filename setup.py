@@ -9,7 +9,7 @@ with open(path.join(path.dirname(__file__), 'README.rst')) as f:
 setup(
     name='datatree',
     version='.'.join(map(str, VERSION)),
-    license='Creative Commons Attribution 3.0 Unported License',
+    license='Apache License, Version 2.0',
     description='DSL for creating structured documents in python.',
     long_description=readme,
     url='https://github.com/bigjason/datatree',
@@ -17,6 +17,7 @@ setup(
     author_email='bigjasonwebb@gmail.com',
     packages=find_packages(),
     include_package_data=True,
+    keywords='xml builder json yaml',
     classifiers=[
        'Development Status :: 4 - Beta',
        'Topic :: Text Processing :: Markup',

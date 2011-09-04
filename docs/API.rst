@@ -3,9 +3,17 @@ API
 
 .. module:: datatree
 
-The API is mostly dynamic and so by nature difficult to document.  If you have
-any suggestions for this please leave a note for me at 
-`www.bigjason.com <http://www.bigjason.com/>`_.
+The API follows (mostly) some basic rules to help separate the dynamic "magical"
+parts from the concrete implementation.  All internal method names follow the
+`dunder <http://wiki.python.org/moin/DunderAlias>`_ format, ie:
+``__get_methods__``.  All public methods are in uppercase, ie: ``COMMENT``.
+This style holds true for most of the API.
+
+.. note::
+
+    The API is mostly dynamic and so by nature difficult to document.  If you have
+    any suggestions please leave a note for me at
+    `www.bigjason.com <http://www.bigjason.com/>`_.
 
 Tree
 ----

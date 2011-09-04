@@ -13,7 +13,7 @@ found at `datatree.readthedocs.org <http://datatree.readthedocs.org/>`_.
 Installation
 ------------
 You can install via `PyPi <http://pypi.python.org/pypi/datatree/>`_ or direct 
-from the github_ repo.
+from the github_ repository.
 
 To install with pip::
 
@@ -26,7 +26,7 @@ To install with easy_install::
 -------
 Example
 -------
-A small example:: 
+A small example::
 
     from datatree import Tree, Node
 

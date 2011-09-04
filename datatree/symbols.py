@@ -1,5 +1,8 @@
 
 class Symbol(object):
+    """A symbol is used to represent a string, usually one that is intended to
+    be rendered as unquoted.
+    """
     def __init__(self, name):
         self.name = name
 

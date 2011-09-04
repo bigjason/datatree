@@ -5,11 +5,20 @@ Change Log
 .. contents::
     :local:
 
+.. v0.1.9:
+
+0.1.9
+=====
+:Release Date: *TBD*
+
+* Support for namespaces.
+* Streamline API to make more sense and have less "magic".
+
 .. v0.1.8.1:
 
 0.1.8.1
 =====
-:Release Date: *TBD*
+:Release Date: 06-26-2011
 
 * Changed license to `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>`_.
 * Added coverage.py to the test suite along with some testing updates.
