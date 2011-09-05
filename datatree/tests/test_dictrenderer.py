@@ -88,3 +88,9 @@ class test_DictRenderer(unittest.TestCase, NodeTestBase):
         actual = tree('dict')
         expected = {'root': {'item': 1}}
         self.assertDictEqual(actual, expected)
+
+    def test_render_pretty_string(self):
+        self.assertIn(
+            'Terry Pratchett',
+            self.get_unified_tree()('dict', pretty_string=True)
+        )
