@@ -3,7 +3,7 @@ try:
 except ImportError:
     import unittest
 
-from datatree import Node, n, Tree
+from datatree import Node, Tree
 
 class test_Node(unittest.TestCase):
 
@@ -23,9 +23,9 @@ class test_Node(unittest.TestCase):
 
     def test_nested(self):
         root = Node('one')
-        root.item1(1)
-        with root.nested1() as nested:
-            nested.nested2('two')
+        root.node('item1', 1)
+        with root.node('nested1') as nested:
+            nested.node('nested2', 'two')
 
         self.assertEqual(root.__node_name__, 'one')
         self.assertEqual(root.__children__[0].__value__, 1)
@@ -34,28 +34,26 @@ class test_Node(unittest.TestCase):
     def test_context_manager(self):
         root = Node()
         with root as actual:
-            self.assertEqual(root, actual, 'The context manager should return itself.')
+            self.assertEqual(root, actual)
 
-    def test_add_child(self):
-        root = Node()
-        root.add_child(Node, 'level1', 'two', some='attr')
+    def test_add_node(self):
+        root = Node('level1', 'two', some='attr')
+        root.add_node(root)
 
         child = root.__children__[0]
         self.assertEqual(child.__node_name__, 'level1')
         self.assertEqual(child.__value__, 'two')
-        self.assertDictEqual(child.__attrs__, {'some': 'attr'})
+        self.assertDictEqual(child.__attributes__, {'some': 'attr'})
 
     def test_add_child_node(self):
         tree = Tree()
-        node = Node("A Value")
-        tree.add_child_node(node)
-
+        node = tree.node('A Value')
         self.assertEqual(tree.__children__[0], node)
 
     def test_add_duplicate_nodes(self):
         root = Node()
-        root.greeting('Hello')
-        root.greeting('Hi')
+        root.node('greeting', 'Hello')
+        root.node('greeting', 'Hi')
 
         hello = root.__children__[0]
         hi = root.__children__[1]
@@ -65,38 +63,10 @@ class test_Node(unittest.TestCase):
         for child in root.__children__:
             self.assertEqual(child.__node_name__, 'greeting')
 
-    def test_lshift_operator_single(self):
-        root = Node('test_lshift_operator_single')
-        root << n('level1', 'two', some='attr')
-
-        self.assertEqual(root.__node_name__, 'test_lshift_operator_single')
-        child = root.__children__[0]
-        self.assertEqual(child.__node_name__, 'level1')
-        self.assertEqual(child.__value__, 'two')
-        self.assertDictEqual(child.__attrs__, {'some': 'attr'})
-
-    def test_lshift_operator_multi(self):
-        root = Node('test_lshift_operator_multi')
-        root << [n('level1', 'two', some='attr'), n('level1', 'two', some='attr')]
-
-        self.assertEqual(root.__node_name__, 'test_lshift_operator_multi')
-        for child in root.__children__:
-            self.assertEqual(child.__node_name__, 'level1')
-            self.assertEqual(child.__value__, 'two')
-            self.assertDictEqual(child.__attrs__, {'some': 'attr'})
-
-    def test_lshift_operator_chained(self):
-        root = Node()
-        root << n('level1', 'two', some='attr') << n('level1', 'two', some='attr')
-
-        for child in root.__children__:
-            self.assertEqual(child.__node_name__, 'level1')
-            self.assertEqual(child.__value__, 'two')
-            self.assertDictEqual(child.__attrs__, {'some': 'attr'})
 
     def test_callable_render(self):
         root = Node()
-        root.item(1)
+        root.node('item', 1)
 
         actual = str(root())
         self.assertIn("root", actual)

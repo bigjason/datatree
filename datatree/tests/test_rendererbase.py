@@ -39,8 +39,8 @@ class test_InternalRenderer(unittest.TestCase):
     def _get_test_tree(self):
         tree = Tree()
         tree.instruct()
-        tree.name('Bob')
-        tree.age(12)
+        tree.node('name', 'Bob')
+        tree.node('age', 12)
         return tree
             
     def test_data_only(self):
