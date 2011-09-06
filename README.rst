@@ -1,13 +1,14 @@
 -------
 Summary
 -------
-DataTree is a DSL for creating structured documents in python. Inspired by 
-`ruby builder`_ but with the goal of reducing the amount of line noise associated 
-with creating XML documents in python.  As an added bonus the tree can be output
+DataTree is a library for creating structured documents in python. Inspired by
+`ruby builder`_ but with the goal of reducing the amount of line noise while
+remaining "pythonic".  As an added bonus the tree can be output
 to to any structured format (with XML, JSON and YAML supported in the library).
 
-*Note:* More documentation is coming soon but for now a very basic rough draft can be
-found at `datatree.readthedocs.org <http://datatree.readthedocs.org/>`_.
+.. note::
+    More documentation is coming soon but for now a very basic rough draft can be
+    found at `datatree.readthedocs.org <http://datatree.readthedocs.org/>`_.
 
 ------------
 Installation
