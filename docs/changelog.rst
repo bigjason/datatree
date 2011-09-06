@@ -5,19 +5,19 @@ Change Log
 .. contents::
     :local:
 
-.. v0.1.9:
+.. v0.2.0:
 
-0.1.9
+0.2.0
 =====
 :Release Date: *TBD*
 
-* Support for namespaces.
-* Streamline API to make more sense and have less "magic".
+* Change of API removing *Magic* methods.
+* More tests and small bug fixes.
 
 .. v0.1.8.1:
 
 0.1.8.1
-=====
+=======
 :Release Date: 06-26-2011
 
 * Changed license to `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>`_.

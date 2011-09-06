@@ -31,14 +31,14 @@ A small example::
     from datatree import Tree, Node
 
     tree = Tree()
-    with tree.author() as author:
-        author.name('Terry Pratchett')
-        author.genre('Fantasy/Comedy')
-        author // "Only 2 books listed"
-        with author.novels(count=2) as novels:
-            novels.novel('Small Gods', year=1992)
-            novels.novel('The Fifth Elephant', year=1999)
-            novels << Node("novel", "Guards! Guards!", year=1989)
+    with tree.node("author") as author:
+        author.node('name', 'Terry Pratchett')
+        author.node('genre', 'Fantasy/Comedy')
+        author.comment("Only 2 books listed")
+        with author.node('novels', count=2) as novels:
+            novels.node('novel', 'Small Gods', year=1992)
+            novels.node('novel', 'The Fifth Elephant', year=1999)
+            novels.node("novel", "Guards! Guards!", year=1989)
 
     print tree(pretty=True) 
 
@@ -88,7 +88,7 @@ The source code can be found on github_.
 Feedback
 --------
 I welcome any and all constructive feedback.  Feel free to contact me (Jason Webb) at 
-`www.bigjason.com <http://www.bigjason.com/>`_ or on twitter 
+`www.bigjason.com <http://www.bigjason.com/>`_ or (preferably) on twitter
 `@bigjasonwebb <http://www.twitter.com/BigJasonWebb>`_.
 
 Contributing

@@ -57,7 +57,11 @@ class BaseNode(object):
 
     def to_string(self, level=0):
         """Create an ugly representation of the datatree from this node
-        down. This is included as a debug aid and is not good for much else.
+        down.
+
+        .. Warning::
+            This is included as a debug aid and is not good for much else. The
+            output is messy and inconsistent.
         """
         result = StringIO()
         prefix = ' ' * level
@@ -100,10 +104,19 @@ class BaseNode(object):
                 # TODO: Should the renderers be instantiated?
         return render_kls().render(self, options=options)
 
-    def __call__(self, renderer='xml', **options):
-        """Same as calling :function:`render <NodeBase.render>`.        
+    def __call__(self, renderer='xml', as_root=False, **options):
+        """Same as calling :function:`render <NodeBase.render>`.
+
+        :keyword renderer: The name of the renderer to use.  You may add more
+            renderers by using the register_renderer method.
+
+        :keyword as_root: If True, the tree will be rendered from this node down,
+            otherwise rendering will happen from the tree root.
+
+        :keyword options: Key value pairs of options that will be passed to
+            the renderer.
         """
-        return self.render(renderer, **options)
+        return self.render(renderer, as_root=as_root, **options)
 
 
 class Vertex(BaseNode):
@@ -123,10 +136,11 @@ class Vertex(BaseNode):
     def comment(self, text):
         """Adds a comment to the node.
         
-        *Note: Comments are ignored by some of the renderers such as json and
-            dict. Consult the documentation to find out the behaviour.*
+        .. note::
+            Comments are ignored by some of the renderers such as json and
+            dict. Consult the documentation to find out the behaviour.
         
-        :keyword text: Text of the comment.
+        :keyword text: Text content of the comment.
         """
         return self.add_node(
             CommentNode(
@@ -137,6 +151,17 @@ class Vertex(BaseNode):
         )
 
     def cdata(self, text, **attributes):
+        """Add a :class:`CDataNode <datatree.tree.CDataNode>` to the current
+        tree.
+
+        .. note::
+            CData tags are ignored by some of the renderers such as json and
+            dict. Consult the documentation to find out the behaviour.
+
+        :param text: Text value of the CDATA tag.
+        :param attributes: Additional attributes to be added to the tag.
+        :return: The created :class:`CDataNode <datatree.tree.CDataNode>`.
+        """
         return self.add_node(
             CDataNode(
                 node_name='!CDATA!',
@@ -153,11 +178,22 @@ class Vertex(BaseNode):
 
     ### Child Manipulation Methods ###
 
-    def node(self, name, text=None, **attributes):
+    def node(self, name, value=None, **attributes):
+        """Creates and adds :class:`Node <datatree.tree.Node>` object to the
+        current tree.
+
+        :param name: The name identifier for the node..
+        :param value: The value of this node.  Note that this will be
+            converted to a string usually during rendering.  Default is ``None``
+            which generally means it is ignored during rendering.
+        :param attributes: The key value pairs that will be used as the
+            attributes for the node.
+        :return: The created :class:`Node <datatree.tree.Node>`.
+        """
         new_node = Node(
             node_name=name,
             node_parent=self,
-            node_value=text,
+            node_value=value,
             **attributes
         )
         self.add_node(new_node)
@@ -187,7 +223,11 @@ class Tree(Vertex):
     def instruct(self, name='xml', **attributes):
         """Add an xml processing instruction.
         
-        :keyword name: Name of the instruction node. A value of xml will create 
+        .. note::
+            Instructions are ignored by some of the renderers such as json and
+            dict. Consult the documentation to find out the behaviour.
+
+        :keyword name: Name of the instruction node. A value of xml will create
             the instruction ``<?xml ?>``.
         
         :keyword attributes: Any extra attributes for the instruction.
@@ -197,8 +237,13 @@ class Tree(Vertex):
     def declare(self, name, *attributes):
         """Add an xml declaration to the datatree.  
         
-        *Note:* This functionality is pretty limited for the time being,
-        hopefully the API for this will become more clear with time.
+        .. note::
+            Declarations are ignored by some of the renderers such as json and
+            dict. Consult the documentation to find out the behaviour.
+
+        .. Warning::
+            This functionality is pretty limited for the time being,
+            hopefully the API for this will become more clear with time.
         
         :keyword name: Name of the declaration node.
         

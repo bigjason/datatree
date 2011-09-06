@@ -3,17 +3,6 @@ API
 
 .. module:: datatree
 
-The API follows (mostly) some basic rules to help separate the dynamic "magical"
-parts from the concrete implementation.  All internal method names follow the
-`dunder <http://wiki.python.org/moin/DunderAlias>`_ format, ie:
-``__get_methods__``.  All public methods are in uppercase, ie: ``comment``.
-This style holds true for most of the API.
-
-.. note::
-
-    The API is mostly dynamic and so by nature difficult to document.  If you have
-    any suggestions please leave a note for me at
-    `www.bigjason.com <http://www.bigjason.com/>`_.
 
 Tree
 ----
@@ -39,17 +28,17 @@ used.
 
 The examples in this section use this datatree::
 
-    from datatree import Tree
+    from datatree import Tree, Node
 
     tree = Tree()
-    with tree.author() as author:
-        author.name('Terry Pratchett')
-        author.genre('Fantasy/Comedy')
-        author // "Only 2 books listed"
-        with author.novels(count=2) as novels:
-            novels.novel('Small Gods', year=1992)
-            novels.novel('The Fifth Elephant', year=1999)
-            novels << Node("novel", "Guards! Guards!", year=1989)
+    with tree.node("author") as author:
+        author.node('name', 'Terry Pratchett')
+        author.node('genre', 'Fantasy/Comedy')
+        author.comment("Only 2 books listed")
+        with author.node('novels', count=2) as novels:
+            novels.node('novel', 'Small Gods', year=1992)
+            novels.node('novel', 'The Fifth Elephant', year=1999)
+            novels.node("novel", "Guards! Guards!", year=1989)
 
 
 XmlRenderer
@@ -67,10 +56,6 @@ YamlRenderer
 DictRenderer
 ^^^^^^^^^^^^
 .. automodule:: datatree.render.dictrender 
-
-ETreeRenderer
-^^^^^^^^^^^^^
-.. automodule:: datatree.render.etreerender
 
 Implementing a Renderer
 ^^^^^^^^^^^^^^^^^^^^^^^
