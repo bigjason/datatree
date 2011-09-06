@@ -4,9 +4,9 @@ except ImportError:
     import unittest
 
 from datatree import Node, Tree
+from datatree.tests.base import NodeTestBase
 
-class test_Node(unittest.TestCase):
-
+class test_Node(unittest.TestCase, NodeTestBase):
     def setUp(self):
         pass
 
@@ -63,7 +63,6 @@ class test_Node(unittest.TestCase):
         for child in root.__children__:
             self.assertEqual(child.__node_name__, 'greeting')
 
-
     def test_callable_render(self):
         root = Node()
         root.node('item', 1)
@@ -71,3 +70,21 @@ class test_Node(unittest.TestCase):
         actual = str(root())
         self.assertIn("root", actual)
         self.assertIn("item", actual)
+
+    def test_to_string(self):
+        self.assertIsInstance(
+            self.get_unified_tree().to_string(),
+            basestring
+        )
+
+    def test_render_child_node_as_root(self):
+        tree = Tree()
+        with tree.node('root') as root:
+            child = root.node('name')
+            child.node('first', 'Bob')
+            child.node('last', 'Wiley')
+
+        self.assertIsInstance(
+            child.render(),
+            basestring
+        )

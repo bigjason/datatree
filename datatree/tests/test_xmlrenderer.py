@@ -64,7 +64,12 @@ class test_XmlRenderer(unittest.TestCase):
         tree = Tree()
         tree.declare('ELEMENT', __.Value, 'A value here.')
         self.assertIn(tree(), r'<!ELEMENT Value "A value here.">')
-        
+
+    def test_render_declaration_no_values(self):
+        tree = Tree()
+        tree.declare('ELEMENT')
+        self.assertIn(tree(), r'<!ELEMENT>')
+
     def test_render_instruction_xml(self):
         tree = Tree()
         tree.instruct('xml')
@@ -100,4 +105,12 @@ class test_XmlRenderer(unittest.TestCase):
         etree = e.fromstring(tree(pretty=True))
         self.assertEqual(etree.find('.//genre').text, 'Fantasy/Comedy')
         self.assertEqual(len(etree.findall('.//novel')), 2)
-        
+
+    def test_data_node_with_children_and_text(self):
+        tree = Tree()
+        with tree.node('a', 'A', href="http://bigjason.com") as a:
+            a.node('b', "Link")
+        self.assertEqual(
+            tree(),
+            '<a href="http://bigjason.com">A<b>Link</b></a>'
+        )

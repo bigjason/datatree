@@ -24,4 +24,3 @@ if __name__ == '__main__':
     print
     print 'Dict:'
     print author('dict', pretty_string=True)
-

@@ -42,10 +42,10 @@ from StringIO import StringIO # TODO: cStringIO has no unicode support. Do we ca
 
 from datatree.render.base import InternalRenderer
 from datatree.symbols import Symbol
-from datatree.tree import (Tree, 
-                           CDataNode, 
-                           CommentNode, 
-                           DeclarationNode, 
+from datatree.tree import (Tree,
+                           CDataNode,
+                           CommentNode,
+                           DeclarationNode,
                            InstructionNode)
 
 class XmlRenderer(InternalRenderer):
@@ -78,18 +78,19 @@ class XmlRenderer(InternalRenderer):
 
         def render_children():
             for child in node.__children__:
-                self.render_node(child, doc=doc, level=level + 1, options=options)
+                self.render_node(child, doc=doc, level=level + 1,
+                                 options=options)
 
         def data_node():
-            attrs = self.get_attrs_str(node.__attributes__)
+            attributes = self.get_attrs_str(node.__attributes__)
             if not node.__children__ and node.__value__ is None:
                 doc.write('<{0} {1}{2}/>'.format(node.__node_name__,
-                                              attrs,
-                                              ' ' if attrs else ''))
+                                                 attributes,
+                                                 ' ' if attributes else ''))
             else:
                 doc.write('<{0}{1}{2}>'.format(node.__node_name__,
-                                            ' ' if attrs else '',
-                                            attrs))
+                                               ' ' if attributes else '',
+                                               attributes))
                 if node.__value__ is not None:
                     if len(node.__children__) > 0:
                         doc.write(newline)
@@ -115,8 +116,8 @@ class XmlRenderer(InternalRenderer):
             attrs_str = self.get_attrs_str(attrs)
 
             doc.write('<?{0}{1}{2}?>'.format(node.__node_name__,
-                                          ' ' if attrs_str else '',
-                                          attrs_str))
+                                             ' ' if attrs_str else '',
+                                             attrs_str))
 
         def declare_node():
             # Don't use standard attrib render.
@@ -168,5 +169,5 @@ class XmlRenderer(InternalRenderer):
     @staticmethod
     def get_attrs_str(attrs):
         attrs = ('{0}={1}'.format(key, quoteattr(str(value)))
-                    for key, value in attrs.iteritems())
+        for key, value in attrs.iteritems())
         return ' '.join(attrs).strip()

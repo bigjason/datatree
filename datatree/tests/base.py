@@ -74,12 +74,3 @@ class NodeTestBase(object):
         assert self.get_dirty_tree() is not None
         assert self.get_unified_tree() is not None
 
-    #######################
-    ## Recommended tests ##
-    #######################
-
-    def test_nested_render(self):
-        self.fail("Not yet implemented.")
-
-    def test_flat_render(self):
-        self.fail("Not yet implemented.")

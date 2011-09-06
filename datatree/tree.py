@@ -156,6 +156,7 @@ class Vertex(BaseNode):
     def node(self, name, text=None, **attributes):
         new_node = Node(
             node_name=name,
+            node_parent=self,
             node_value=text,
             **attributes
         )
@@ -201,10 +202,10 @@ class Tree(Vertex):
         
         :keyword name: Name of the declaration node.
         
-        :keyword attrs: Extra attributes to be added. Strings will be added as 
-            quoted strings.  Symbols will be added as unquoted strings. Import
-            the ``__`` object and use it like this: ``__.SomeValue`` to add a
-            symbol.
+        :keyword attributes: Extra attributes to be added. Strings will be
+            added as quoted strings.  Symbols will be added as unquoted
+            strings. Import the ``__`` object and use it like this:
+            ``__.SomeValue`` to add a symbol.
         """
         child = self.add_node(DeclarationNode(node_name=name))
         child.__declaration_params__ = attributes
