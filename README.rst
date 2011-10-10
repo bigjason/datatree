@@ -37,7 +37,7 @@ Installing the Alpha
 --------------------
 You can install the alpha with pip directly from github using the command::
 
-    $ pip install -e git://github.com/bigjason/datatree.git@v0.2.0#egg=datatree
+    $ pip install -e git://github.com/bigjason/datatree.git@v0.2.alpha.1#egg=datatree
 
 -------
 Example
