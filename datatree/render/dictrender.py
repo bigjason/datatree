@@ -51,8 +51,8 @@ class DictRenderer(InternalRenderer):
 
     # TODO: Figure out how to handle attributes here.
     def render_node(self, node, parent=None, options=None):
-        if parent == None: parent = {}
-        if options == None: options = {}
+        if parent is None: parent = {}
+        if options is None: options = {}
         user_options = self.get_options(options)
         children = self.data_only(node)
 
@@ -83,8 +83,8 @@ class DictRenderer(InternalRenderer):
 
     def render_final(self, rendered, options=None):
         options = self.get_options(options)
-        if options.get('pretty_string', False) == True:
-            return pformat(rendered, width=80)
+        if options.get('pretty_string', False):
+            return pformat(rendered)
         else:
             return rendered
 

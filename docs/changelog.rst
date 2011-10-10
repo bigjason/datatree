@@ -5,13 +5,14 @@ Change Log
 .. contents::
     :local:
 
-.. v0.2.0:
+.. v0.2.alpha.1:
 
-0.2.0
+0.2.alpha.1
 =====
 :Release Date: *TBD*
 
 * Change of API removing *Magic* methods.
+* Documentation updates.
 * More tests and small bug fixes.
 
 .. v0.1.8.1:

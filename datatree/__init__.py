@@ -2,4 +2,4 @@ from .tree import Tree, Node, Name, __
 
 __all__ = ['Tree', 'Node', 'Name', '__']
 
-VERSION = (0, 2, 0)
+VERSION = (0, 2, "alpha", 1)

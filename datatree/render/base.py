@@ -44,7 +44,7 @@ class InternalRenderer(Renderer):
         raise NotImplementedError()
 
     def get_options(self, user_options):
-        if user_options == None: user_options = {}
+        if user_options is None: user_options = {}
         options = deepcopy(self.default_options)
         options.update(user_options)
         return options

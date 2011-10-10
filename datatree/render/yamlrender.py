@@ -41,5 +41,5 @@ class YamlRenderer(DictRenderer):
 
     def render(self, base_node, options=None):
         """Renders the entire tree under base_node as a json string."""
-        if options == None: options = {}
+        if options is None: options = {}
         return dump(self.render_final(self.render_node(base_node, options=options), options=options), Dumper=Dumper)

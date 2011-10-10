@@ -140,7 +140,7 @@ class XmlRenderer(InternalRenderer):
 
         ## Actual flow of render starts here ##
 
-        if doc == None:
+        if doc is None:
             doc = StringIO()
 
         if isinstance(node, Tree):

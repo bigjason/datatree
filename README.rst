@@ -24,6 +24,21 @@ To install with easy_install::
 
     $ easy_install datatree
 
+---------------------
+About the 0.2.0 Alpha
+---------------------
+Version 0.2.0 is about 70% complete.  The remaining tasks are:
+
+#. Implement xml namespaces.
+#. Finish updating documentation to the new API.
+#. Make the ``Node`` callable the same as the ``node`` method.
+
+Installing the Alpha
+--------------------
+You can install the alpha with pip directly from github using the command::
+
+    $ pip install -e git://github.com/bigjason/datatree.git@v0.2.0#egg=datatree
+
 -------
 Example
 -------
