@@ -1,4 +1,4 @@
-Copyright 2011 Jason Webb
+Copyright 2011, 2012 Jason Webb
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
